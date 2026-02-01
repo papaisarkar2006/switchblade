@@ -104,7 +104,7 @@
     </header>
     <main class="main" id="main"></main>
     <footer class="footer">
-        <div class="footer-text" id="footer">Day 1 of 18</div>
+        <div class="footer-text" id="footer">Day 1 of 20</div>
     </footer>
 </div>
 <button class="reset-btn" onclick="if(confirm('Reset all data?'))resetApp()">Reset</button>
@@ -122,7 +122,7 @@ const RULES = {
     DOWNGRADE_THRESHOLD: 102000,
     BUST_THRESHOLD: 70000,
     POINT_VALUE: 25,
-    COMPETITION_DAYS: 18,
+    COMPETITION_DAYS: 20,
     
     PHASES: {
         1: {
@@ -259,6 +259,8 @@ function resetApp() {
 
 function getPhase(capital) {
     if (capital >= RULES.PHASE2_THRESHOLD) return 3;
+    // Day 16+ Hail Mary: force Phase 3 if behind
+    if (S.day >= 16 && capital < RULES.PHASE2_THRESHOLD) return 3;
     if (capital >= RULES.PHASE1_THRESHOLD) return 2;
     return 1;
 }
@@ -565,18 +567,14 @@ function submitCloseCapital(capital) {
     S.phase = getPhase(capital);
     checkDowngrade();
     
-    // Check overnight eligibility before clearing position
-    const overnightEligible = checkOvernightEligible(S.position.pnl);
+    S.position = null;
     
-    if (overnightEligible) {
-        go('EOD_HOLD');
+    if (S.capital < RULES.BUST_THRESHOLD) {
+        go('BUSTED');
+    } else if (canTrade().can && S.tradesCount < 3) {
+        go('SHOW_SIZING');
     } else {
-        S.position = null;
-        if (canTrade().can && S.tradesCount < 3) {
-            go('SHOW_SIZING');
-        } else {
-            go('DAY_COMPLETE');
-        }
+        go('DAY_COMPLETE');
     }
 }
 
@@ -592,6 +590,20 @@ function confirmEodHold(closePrice) {
 
 function eodClose() {
     go('EOD_CLOSE');
+}
+
+function eodCheck() {
+    go('INPUT_EOD_PNL');
+}
+
+function submitEodPnl(pnl) {
+    S.position.pnl = pnl;
+    const overnightEligible = checkOvernightEligible(pnl);
+    if (overnightEligible) {
+        go('EOD_HOLD');
+    } else {
+        go('EOD_CLOSE');
+    }
 }
 
 function submitEodExit(price) {
@@ -667,6 +679,7 @@ function renderScreen() {
         case 'INPUT_CLOSE_CAPITAL': return screenInputCloseCapital();
         case 'EOD_HOLD': return screenEodHold();
         case 'EOD_CLOSE': return screenEodClose();
+        case 'INPUT_EOD_PNL': return screenInputEodPnl();
         case 'DAY_COMPLETE': return screenDayComplete();
         default: return screenMorningLoad();
     }
@@ -936,6 +949,7 @@ function screenPositionOpen() {
                 <button class="btn btn-secondary" onclick="stopHit()">Stop Hit</button>
                 <button class="btn btn-secondary" onclick="closeTrade()">Close</button>
             </div>
+            <button class="btn btn-ghost" onclick="eodCheck()">End of Day</button>
         </div>
     `;
 }
@@ -1154,6 +1168,19 @@ function screenInputCloseCapital() {
                 <input type="number" class="input" id="inp" inputmode="numeric">
             </div>
             <button class="btn btn-primary" onclick="submitCloseCapital(input('inp'))">Next</button>
+        </div>
+    `;
+}
+
+function screenInputEodPnl() {
+    return `
+        <div class="screen active">
+            <div class="question">Current P&L?</div>
+            <div class="sub">Your unrealized P&L at end of day</div>
+            <div class="input-wrap">
+                <input type="number" class="input" id="inp" inputmode="decimal" placeholder="0">
+            </div>
+            <button class="btn btn-primary" onclick="submitEodPnl(input('inp'))">Next</button>
         </div>
     `;
 }
