@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#000000">
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiU1dJVENIQkxBREUgdjMxIiwic2hvcnRfbmFtZSI6IlNXSVRDSEJMQURFIiwiZGVzY3JpcHRpb24iOiJMRUFQIENvbXBldGl0aW9uIEV4ZWN1dG9yIiwic3RhcnRfdXJsIjoiLiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMwMDAwMDAiLCJ0aGVtZV9jb2xvciI6IiMwMDAwMDAiLCJvcmllbnRhdGlvbiI6InBvcnRyYWl0IiwiaWNvbnMiOlt7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbCw8c3ZnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zycgdmlld0JveD0nMCAwIDEwMCAxMDAnPjxyZWN0IHdpZHRoPScxMDAnIGhlaWdodD0nMTAwJyBmaWxsPScjMDAwJy8+PHRleHQgeD0nNTAnIHk9JzU1JyBmb250LXNpemU9JzUwJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmaWxsPScjZjM5YzEyJz7imqQ8L3RleHQ+PC9zdmc+Iiwic2l6ZXMiOiIxOTJ4MTkyIiwidHlwZSI6ImltYWdlL3N2Zyt4bWwifV19">
+    <title>SWITCHBLADE v31</title>
+    <style>
+        :root{--bg:#000;--card:#0a0a0a;--border:#1a1a1a;--text:#fff;--dim:#555;--accent:#f39c12;--green:#00d26a;--red:#ff4757}
+        *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+        html,body{height:100%;overflow:hidden}
+        body{font-family:-apple-system,BlinkMacSystemFont,system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:18px}
+        .app{display:flex;flex-direction:column;height:100dvh;max-width:420px;margin:0 auto;padding:20px;padding-top:env(safe-area-inset-top)}
+        
+        /* Header */
+        .header{display:flex;justify-content:space-between;align-items:center;padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:20px}
+        .logo{font-size:14px;font-weight:600;color:var(--accent)}
+        .phase-badge{font-size:12px;padding:4px 10px;border-radius:20px;font-weight:600}
+        .phase-1{background:#1a5276;color:#fff}
+        .phase-2{background:#b9770e;color:#fff}
+        .phase-3{background:#922b21;color:#fff}
+        
+        /* Main content */
+        .main{flex:1;display:flex;flex-direction:column;justify-content:center}
+        
+        /* Screen */
+        .screen{display:none;flex-direction:column;animation:fadeIn .2s ease}
+        .screen.active{display:flex}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        
+        /* Question */
+        .question{font-size:32px;font-weight:700;margin-bottom:8px;line-height:1.2}
+        .sub{font-size:16px;color:var(--dim);margin-bottom:40px}
+        
+        /* Input */
+        .input-wrap{margin-bottom:24px}
+        .input{width:100%;padding:20px;font-size:32px;font-family:monospace;font-weight:700;background:var(--card);border:2px solid var(--border);border-radius:16px;color:var(--text);text-align:center}
+        .input:focus{outline:none;border-color:var(--accent)}
+        .input-unit{font-size:14px;color:var(--dim);text-align:center;margin-top:8px}
+        
+        /* Quick adjust buttons */
+        .quick-btns{display:flex;justify-content:center;gap:8px;margin-top:12px}
+        .quick-btn{padding:8px 16px;font-size:14px;font-weight:600;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--dim);cursor:pointer}
+        .quick-btn:active{background:var(--border)}
+        
+        /* Buttons */
+        .btn{width:100%;padding:20px;font-size:20px;font-weight:600;border:none;border-radius:16px;cursor:pointer;margin-bottom:12px}
+        .btn:active{transform:scale(.98);opacity:.9}
+        .btn-primary{background:var(--accent);color:#000}
+        .btn-long{background:var(--green);color:#000}
+        .btn-short{background:var(--red);color:#fff}
+        .btn-secondary{background:var(--card);color:var(--text);border:1px solid var(--border)}
+        .btn-ghost{background:transparent;color:var(--dim);font-size:16px;padding:12px}
+        
+        .btn-row{display:flex;gap:12px}
+        .btn-row .btn{flex:1}
+        
+        /* Info display */
+        .info-card{background:var(--card);border-radius:16px;padding:20px;margin-bottom:24px;border:1px solid var(--border)}
+        .info-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)}
+        .info-row:last-child{border-bottom:none}
+        .info-label{color:var(--dim);font-size:14px}
+        .info-value{font-weight:600;font-family:monospace}
+        
+        /* Instruction */
+        .instruction{background:var(--card);border-radius:16px;padding:24px;margin-bottom:24px;border-left:4px solid var(--accent)}
+        .instruction-title{font-size:14px;color:var(--accent);font-weight:600;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px}
+        .instruction-main{font-size:24px;font-weight:700;margin-bottom:8px}
+        .instruction-detail{font-size:16px;color:var(--dim)}
+        
+        /* Direction badge */
+        .direction{display:inline-block;padding:8px 24px;border-radius:12px;font-size:20px;font-weight:700;margin-bottom:16px}
+        .direction.long{background:var(--green);color:#000}
+        .direction.short{background:var(--red);color:#fff}
+        
+        /* Big number display */
+        .big-num{font-size:56px;font-weight:700;font-family:monospace;text-align:center;margin-bottom:8px}
+        .big-num.positive{color:var(--green)}
+        .big-num.negative{color:var(--red)}
+        .big-label{font-size:14px;color:var(--dim);text-align:center;text-transform:uppercase;letter-spacing:1px}
+        
+        /* Status */
+        .status{text-align:center;padding:40px 20px}
+        .status-icon{font-size:64px;margin-bottom:16px}
+        .status-title{font-size:28px;font-weight:700;margin-bottom:8px}
+        .status-sub{font-size:16px;color:var(--dim)}
+        
+        /* Footer */
+        .footer{padding-top:16px;border-top:1px solid var(--border);margin-top:auto}
+        .footer-text{font-size:12px;color:var(--dim);text-align:center}
+        
+        /* Reset */
+        .reset-btn{position:fixed;top:20px;right:20px;font-size:11px;color:var(--dim);background:none;border:none;padding:8px}
+    </style>
+</head>
+<body>
+<div class="app">
+    <header class="header">
+        <div class="logo">⚔️ SWITCHBLADE v31</div>
+        <div class="phase-badge phase-1" id="phase-badge">PHASE 1</div>
+    </header>
+    <main class="main" id="main"></main>
+    <footer class="footer">
+        <div class="footer-text" id="footer">Day 1 of 18</div>
+    </footer>
+</div>
+<button class="reset-btn" onclick="if(confirm('Reset all data?'))resetApp()">Reset</button>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════════════
+// SWITCHBLADE v31 ENGINE - "Earn the Right to Risk"
+// 100% Faithful Implementation
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const RULES = {
+    START_CAPITAL: 100000,
+    PHASE1_THRESHOLD: 105000,
+    PHASE2_THRESHOLD: 130000,
+    DOWNGRADE_THRESHOLD: 102000,
+    BUST_THRESHOLD: 70000,
+    POINT_VALUE: 25,
+    COMPETITION_DAYS: 18,
+    
+    PHASES: {
+        1: {
+            name: 'GRIND',
+            contracts: 1,
+            stop: 30,
+            fvs1: false,
+            pyramid: null,
+            pyramidAdd: 0,
+            overnight: 'NEVER'
+        },
+        2: {
+            name: 'RAMP',
+            contracts: 2,
+            contractsMonster: 3,
+            stop: 60,
+            fvs1: true,
+            fvs1Contracts: 2,
+            pyramid: 50,
+            pyramidAdd: 2,
+            overnight: 'TREND_MONSTER_2K' // TREND/MONSTER + profit > €2000
+        },
+        3: {
+            name: 'KILL',
+            contracts: 4,
+            stop: 80,
+            maxRiskPct: 0.10,
+            fvs1: true,
+            fvs1Contracts: 2,
+            pyramid: 40,
+            pyramidAdd: 3,
+            overnight: 'TREND_MONSTER_WIN' // TREND/MONSTER + any profit
+        }
+    }
+};
+
+const STATES = [
+    'MORNING_LOAD',
+    'GAP_OPEN_PRICE',
+    'GAP_PNL',
+    'GAP_CAPITAL',
+    'INPUT_CAPITAL',
+    'INPUT_RANGE',
+    'INPUT_ADX',
+    'NO_TRADE',
+    'BUSTED',
+    'SHOW_SIZING',
+    'INPUT_ORB_HIGH',
+    'INPUT_ORB_LOW',
+    'WAITING_BREAKOUT',
+    'INPUT_FILL_PRICE',
+    'POSITION_OPEN',
+    'PYRAMID_TRIGGERED',
+    'INPUT_PYRAMID_FILL',
+    'INPUT_CURRENT_PNL',
+    'RATCHET_CLOSE',
+    'STOP_HIT',
+    'INPUT_STOP_EXIT',
+    'INPUT_STOP_PNL',
+    'INPUT_STOP_CAPITAL',
+    'COOLDOWN',
+    'SELECT_REENTRY_SIGNAL',
+    'WAITING_REENTRY',
+    'CLOSE_TRADE',
+    'INPUT_CLOSE_EXIT',
+    'INPUT_CLOSE_PNL',
+    'INPUT_CLOSE_CAPITAL',
+    'EOD_HOLD',
+    'EOD_CLOSE',
+    'INPUT_EOD_PRICE',
+    'DAY_COMPLETE'
+];
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════════════════════
+
+let S = loadState() || createInitialState();
+
+function createInitialState() {
+    return {
+        // Persistent
+        startDate: null,
+        capital: RULES.START_CAPITAL,
+        phase: 1,
+        day: 1,
+        history: [],
+        
+        // Session
+        currentState: 'MORNING_LOAD',
+        sessionDate: null,
+        range: null,
+        adx: null,
+        dayType: null,
+        stopsToday: 0,
+        tradesCount: 0,
+        orbHigh: null,
+        orbLow: null,
+        
+        // Position
+        position: null,
+        
+        // Overnight
+        overnight: null,
+        
+        // Temp
+        tempDirection: null,
+        tempSignal: null,
+        peakPnl: 0
+    };
+}
+
+function loadState() {
+    try {
+        const saved = localStorage.getItem('switchblade_v31_final');
+        if (saved) return JSON.parse(saved);
+    } catch(e) {}
+    return null;
+}
+
+function saveState() {
+    localStorage.setItem('switchblade_v31_final', JSON.stringify(S));
+}
+
+function resetApp() {
+    localStorage.removeItem('switchblade_v31_final');
+    S = createInitialState();
+    render();
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function getPhase(capital) {
+    if (capital >= RULES.PHASE2_THRESHOLD) return 3;
+    if (capital >= RULES.PHASE1_THRESHOLD) return 2;
+    return 1;
+}
+
+function checkDowngrade() {
+    if (S.phase === 2 && S.capital < RULES.DOWNGRADE_THRESHOLD) {
+        S.phase = 1;
+        return true;
+    }
+    return false;
+}
+
+function getDayType(range) {
+    if (range >= 250) return 'MONSTER';
+    if (range >= 150) return 'TREND';
+    if (range >= 100) return 'NORMAL';
+    return 'CHOP';
+}
+
+function isTrendOrMonster() {
+    return S.dayType === 'TREND' || S.dayType === 'MONSTER';
+}
+
+function getContracts() {
+    const cfg = RULES.PHASES[S.phase];
+    let contracts = cfg.contracts;
+    
+    if (S.phase >= 2 && S.dayType === 'MONSTER' && cfg.contractsMonster) {
+        contracts = cfg.contractsMonster;
+    }
+    
+    // Phase 3: cap at 10% risk
+    if (S.phase === 3) {
+        const maxRisk = S.capital * cfg.maxRiskPct;
+        const maxContracts = Math.floor(maxRisk / (cfg.stop * RULES.POINT_VALUE));
+        contracts = Math.min(contracts, Math.max(1, maxContracts));
+    }
+    
+    return contracts;
+}
+
+function getStopPts() {
+    return RULES.PHASES[S.phase].stop;
+}
+
+function canTrade() {
+    if (S.capital < RULES.BUST_THRESHOLD) return { can: false, reason: 'BUSTED' };
+    if (S.adx < 18) return { can: false, reason: 'ADX ' + S.adx + ' < 18' };
+    if (S.phase === 1 && S.dayType === 'CHOP') return { can: false, reason: 'Phase 1 + CHOP' };
+    if (S.stopsToday >= 3) return { can: false, reason: '3 stops reached' };
+    if (S.tradesCount >= 3) return { can: false, reason: '3 trades reached' };
+    return { can: true };
+}
+
+function canReenter() {
+    if (S.stopsToday >= 3) return false;
+    if (S.tradesCount >= 3) return false;
+    if (S.adx < 18) return false;
+    // Assume before 15:00 CET - user handles time
+    return true;
+}
+
+function checkOvernightEligible(pnl) {
+    if (!isTrendOrMonster()) return false;
+    
+    if (S.phase === 1) return false;
+    if (S.phase === 2) return pnl > 2000;
+    if (S.phase === 3) return pnl > 0;
+    return false;
+}
+
+function checkRatchet(currentPnl) {
+    if (currentPnl > S.peakPnl) {
+        S.peakPnl = currentPnl;
+        return false;
+    }
+    if (S.peakPnl > 0 && currentPnl <= S.peakPnl * 0.90) {
+        return true; // Ratchet triggered
+    }
+    return false;
+}
+
+function fmt(n) { return '€' + Math.round(n).toLocaleString(); }
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// TRANSITIONS
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function go(state) {
+    S.currentState = state;
+    saveState();
+    render();
+}
+
+function input(id) {
+    return parseFloat(document.getElementById(id)?.value) || 0;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// ACTIONS
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function startSession() {
+    if (!S.startDate) S.startDate = new Date().toISOString().split('T')[0];
+    S.sessionDate = new Date().toISOString().split('T')[0];
+    
+    // Reset session data
+    S.stopsToday = 0;
+    S.tradesCount = 0;
+    S.orbHigh = null;
+    S.orbLow = null;
+    S.position = null;
+    S.peakPnl = 0;
+    
+    if (S.overnight) {
+        go('GAP_OPEN_PRICE');
+    } else {
+        go('INPUT_CAPITAL');
+    }
+}
+
+function submitGapOpen(openPrice) {
+    S.overnight.openPrice = openPrice;
+    go('GAP_PNL');
+}
+
+function submitGapPnl(pnl) {
+    S.overnight.gapPnl = pnl;
+    go('GAP_CAPITAL');
+}
+
+function submitGapCapital(capital) {
+    S.capital = capital;
+    S.phase = getPhase(capital);
+    checkDowngrade();
+    S.overnight = null;
+    go('INPUT_RANGE');
+}
+
+function submitCapital(capital) {
+    S.capital = capital;
+    S.phase = getPhase(capital);
+    checkDowngrade();
+    
+    if (S.capital < RULES.BUST_THRESHOLD) {
+        go('BUSTED');
+    } else {
+        go('INPUT_RANGE');
+    }
+}
+
+function submitRange(range) {
+    S.range = range;
+    S.dayType = getDayType(range);
+    go('INPUT_ADX');
+}
+
+function submitAdx(adx) {
+    S.adx = adx;
+    const check = canTrade();
+    if (!check.can) {
+        S.noTradeReason = check.reason;
+        go('NO_TRADE');
+    } else {
+        go('SHOW_SIZING');
+    }
+}
+
+function proceedToOrb() {
+    go('INPUT_ORB_HIGH');
+}
+
+function submitOrbHigh(price) {
+    S.orbHigh = price;
+    go('INPUT_ORB_LOW');
+}
+
+function submitOrbLow(price) {
+    S.orbLow = price;
+    go('WAITING_BREAKOUT');
+}
+
+function breakoutTriggered(direction) {
+    S.tempDirection = direction;
+    go('INPUT_FILL_PRICE');
+}
+
+function submitFillPrice(price) {
+    const cfg = RULES.PHASES[S.phase];
+    const contracts = getContracts();
+    const stopPts = getStopPts();
+    const dir = S.tempDirection;
+    
+    S.position = {
+        direction: dir,
+        entry: price,
+        contracts: contracts,
+        stop: dir === 'LONG' ? price - stopPts : price + stopPts,
+        stopPts: stopPts,
+        pyramidLevel: cfg.pyramid ? (dir === 'LONG' ? price + cfg.pyramid : price - cfg.pyramid) : null,
+        pyramidAdd: cfg.pyramidAdd,
+        pyramided: false,
+        pyramidContracts: 0,
+        fvs1: cfg.fvs1,
+        fvs1Contracts: cfg.fvs1 ? cfg.fvs1Contracts : 0
+    };
+    
+    S.tradesCount++;
+    S.peakPnl = 0;
+    S.tempDirection = null;
+    
+    go('POSITION_OPEN');
+}
+
+function pyramidHit() {
+    go('PYRAMID_TRIGGERED');
+}
+
+function submitPyramidFill(price) {
+    S.position.pyramided = true;
+    S.position.pyramidContracts = S.position.pyramidAdd;
+    S.position.pyramidEntry = price;
+    S.position.stop = S.position.entry; // Move to breakeven
+    go('POSITION_OPEN');
+}
+
+function updatePnl() {
+    go('INPUT_CURRENT_PNL');
+}
+
+function submitCurrentPnl(pnl) {
+    if (checkRatchet(pnl)) {
+        S.ratchetPnl = pnl;
+        go('RATCHET_CLOSE');
+    } else {
+        go('POSITION_OPEN');
+    }
+}
+
+function stopHit() {
+    go('STOP_HIT');
+}
+
+function submitStopExit(price) {
+    S.position.exitPrice = price;
+    go('INPUT_STOP_PNL');
+}
+
+function submitStopPnl(pnl) {
+    S.position.pnl = pnl;
+    go('INPUT_STOP_CAPITAL');
+}
+
+function submitStopCapital(capital) {
+    S.capital = capital;
+    S.phase = getPhase(capital);
+    const downgraded = checkDowngrade();
+    S.stopsToday++;
+    S.position = null;
+    
+    if (S.capital < RULES.BUST_THRESHOLD) {
+        go('BUSTED');
+    } else if (canReenter()) {
+        go('COOLDOWN');
+    } else {
+        go('DAY_COMPLETE');
+    }
+}
+
+function cooldownDone() {
+    go('SELECT_REENTRY_SIGNAL');
+}
+
+function skipReentry() {
+    go('DAY_COMPLETE');
+}
+
+function selectSignal(signal) {
+    S.tempSignal = signal;
+    go('WAITING_REENTRY');
+}
+
+function reentryTriggered(direction) {
+    S.tempDirection = direction;
+    go('INPUT_FILL_PRICE');
+}
+
+function closeTrade() {
+    go('CLOSE_TRADE');
+}
+
+function submitCloseExit(price) {
+    S.position.exitPrice = price;
+    go('INPUT_CLOSE_PNL');
+}
+
+function submitClosePnl(pnl) {
+    S.position.pnl = pnl;
+    go('INPUT_CLOSE_CAPITAL');
+}
+
+function submitCloseCapital(capital) {
+    S.capital = capital;
+    S.phase = getPhase(capital);
+    checkDowngrade();
+    
+    // Check overnight eligibility before clearing position
+    const overnightEligible = checkOvernightEligible(S.position.pnl);
+    
+    if (overnightEligible) {
+        go('EOD_HOLD');
+    } else {
+        S.position = null;
+        if (canTrade().can && S.tradesCount < 3) {
+            go('SHOW_SIZING');
+        } else {
+            go('DAY_COMPLETE');
+        }
+    }
+}
+
+function confirmEodHold(closePrice) {
+    S.overnight = {
+        direction: S.position.direction,
+        contracts: S.position.contracts + S.position.pyramidContracts,
+        closePrice: closePrice
+    };
+    S.position = null;
+    go('DAY_COMPLETE');
+}
+
+function eodClose() {
+    go('EOD_CLOSE');
+}
+
+function submitEodExit(price) {
+    S.position.exitPrice = price;
+    go('INPUT_CLOSE_PNL');
+}
+
+function ratchetClose() {
+    go('CLOSE_TRADE');
+}
+
+function noBreakout() {
+    go('DAY_COMPLETE');
+}
+
+function noReentrySignal() {
+    go('DAY_COMPLETE');
+}
+
+function nextDay() {
+    S.day++;
+    S.currentState = 'MORNING_LOAD';
+    saveState();
+    render();
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function render() {
+    // Update phase badge
+    const badge = document.getElementById('phase-badge');
+    badge.className = 'phase-badge phase-' + S.phase;
+    badge.textContent = 'PHASE ' + S.phase;
+    
+    // Update footer
+    document.getElementById('footer').textContent = 'Day ' + S.day + ' of ' + RULES.COMPETITION_DAYS + ' │ ' + fmt(S.capital);
+    
+    // Render screen
+    document.getElementById('main').innerHTML = renderScreen();
+}
+
+function renderScreen() {
+    switch(S.currentState) {
+        case 'MORNING_LOAD': return screenMorningLoad();
+        case 'GAP_OPEN_PRICE': return screenGapOpen();
+        case 'GAP_PNL': return screenGapPnl();
+        case 'GAP_CAPITAL': return screenGapCapital();
+        case 'INPUT_CAPITAL': return screenInputCapital();
+        case 'INPUT_RANGE': return screenInputRange();
+        case 'INPUT_ADX': return screenInputAdx();
+        case 'NO_TRADE': return screenNoTrade();
+        case 'BUSTED': return screenBusted();
+        case 'SHOW_SIZING': return screenShowSizing();
+        case 'INPUT_ORB_HIGH': return screenInputOrbHigh();
+        case 'INPUT_ORB_LOW': return screenInputOrbLow();
+        case 'WAITING_BREAKOUT': return screenWaitingBreakout();
+        case 'INPUT_FILL_PRICE': return screenInputFill();
+        case 'POSITION_OPEN': return screenPositionOpen();
+        case 'PYRAMID_TRIGGERED': return screenPyramidTriggered();
+        case 'INPUT_PYRAMID_FILL': return screenInputPyramidFill();
+        case 'INPUT_CURRENT_PNL': return screenInputCurrentPnl();
+        case 'RATCHET_CLOSE': return screenRatchetClose();
+        case 'STOP_HIT': return screenStopHit();
+        case 'INPUT_STOP_PNL': return screenInputStopPnl();
+        case 'INPUT_STOP_CAPITAL': return screenInputStopCapital();
+        case 'COOLDOWN': return screenCooldown();
+        case 'SELECT_REENTRY_SIGNAL': return screenSelectSignal();
+        case 'WAITING_REENTRY': return screenWaitingReentry();
+        case 'CLOSE_TRADE': return screenCloseTrade();
+        case 'INPUT_CLOSE_PNL': return screenInputClosePnl();
+        case 'INPUT_CLOSE_CAPITAL': return screenInputCloseCapital();
+        case 'EOD_HOLD': return screenEodHold();
+        case 'EOD_CLOSE': return screenEodClose();
+        case 'DAY_COMPLETE': return screenDayComplete();
+        default: return screenMorningLoad();
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// SCREENS
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function screenMorningLoad() {
+    return `
+        <div class="screen active">
+            <div class="status">
+                <div class="status-icon">☀️</div>
+                <div class="status-title">Day ${S.day}</div>
+                <div class="status-sub">${S.overnight ? 'You have an overnight position' : 'Ready to trade'}</div>
+            </div>
+            <button class="btn btn-primary" onclick="startSession()">Start Session</button>
+        </div>
+    `;
+}
+
+function screenGapOpen() {
+    return `
+        <div class="screen active">
+            <div class="question">Today's OPEN?</div>
+            <div class="sub">You held ${S.overnight.direction} ${S.overnight.contracts} FDAX overnight</div>
+            <div class="input-wrap">
+                <input type="number" class="input" id="inp" inputmode="decimal" placeholder="21000">
+            </div>
+            <button class="btn btn-primary" onclick="submitGapOpen(input('inp'))">Next</button>
+        </div>
+    `;
+}
+
+function screenGapPnl() {
+    return `
+        <div class="screen active">
+            <div class="question">Gap P&L?</div>
+            <div class="sub">What was your overnight gap P&L?</div>
+            <div class="input-wrap">
+                <input type="number" class="input" id="inp" inputmode="decimal" placeholder="1500">
+            </div>
+            <button class="btn btn-primary" onclick="submitGapPnl(input('inp'))">Next</button>
+        </div>
+    `;
+}
+
+function screenGapCapital() {
+    return `
+        <div class="screen active">
+            <div class="question">Current capital?</div>
+            <div class="sub">After gap settlement</div>
+            <div class="input-wrap">
+                <input type="number" class="input" id="inp" inputmode="numeric" placeholder="${S.capital}">
+            </div>
+            <button class="btn btn-primary" onclick="submitGapCapital(input('inp'))">Next</button>
+        </div>
+    `;
+}
+
+function screenInputCapital() {
+    return `
+        <div class="screen active">
+            <div class="question">Capital?</div>
+            <div class="sub">Your current account balance</div>
+            <div class="input-wrap">
+                <input type="number" class="input" id="inp" inputmode="numeric" value="${S.capital}">
+            </div>
+            <button class="btn btn-primary" onclick="submitCapital(input('inp'))">Next</button>
+        </div>
+    `;
+}
+
+function screenInputRange() {
+    return `
+        <div class="screen active">
+            <div class="question">Yesterday's range?</div>
+            <div class="sub">High - Low in points</div>
+            <div class="input-wrap">
+                <input type="number" class="input" id="inp" inputmode="numeric" placeholder="150">
+                <div class="input-unit">points</div>
+            </div>
+            <button class="btn btn-primary" onclick="submitRange(input('inp'))">Next</button>
+        </div>
+    `;
+}
+
+function screenInputAdx() {
+    return `
+        <div class="screen active">
+            <div class="question">ADX?</div>
+            <div class="sub">Current ADX value</div>
+            <div class="input-wrap">
+                <input type="number" class="input" id="inp" inputmode="decimal" placeholder="25">
+            </div>
+            <button class="btn btn-primary" onclick="submitAdx(input('inp'))">Next</button>
+        </div>
+    `;
+}
+
+function screenNoTrade() {
+    return `
+        <div class="screen active">
+            <div class="status">
+                <div class="status-icon">🚫</div>
+                <div class="status-title">No Trade</div>
+                <div class="status-sub">${S.noTradeReason}</div>
+            </div>
+            <button class="btn btn-secondary" onclick="go('DAY_COMPLETE')">End Day</button>
+        </div>
+    `;
+}
+
+function screenBusted() {
+    return `
+        <div class="screen active">
+            <div class="status">
+                <div class="status-icon">💀</div>
+                <div class="status-title">BUSTED</div>
+                <div class="status-sub">Capital below €70,000</div>
+            </div>
+        </div>
+    `;
+}
+
+function screenShowSizing() {
+    const cfg = RULES.PHASES[S.phase];
+    const contracts = getContracts();
+    const stop = getStopPts();
+    const risk = contracts * stop * RULES.POINT_VALUE;
+    
+    return `
+        <div class="screen active">
+            <div class="info-card">
+                <div class="info-row">
+                    <span class="info-label">Phase</span>
+                    <span class="info-value">${S.phase} (${cfg.name})</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Day Type</span>
+                    <span class="info-value">${S.dayType}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Contracts</span>
+                    <span class="info-value">${contracts} FDAX</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Stop</span>
+                    <span class="info-value">${stop} pts</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Risk</span>
+                    <span class="info-value">${fmt(risk)}</span>
+                </div>
+                ${cfg.fvs1 ? `<div class="info-row">
+                    <span class="info-label">FVS1 Hedge</span>
+                    <span class="info-value">${cfg.fvs1Contracts} contracts</span>
+                </div>` : ''}
+                ${cfg.pyramid ? `<div class="info-row">
+                    <span class="info-label">Pyramid</span>
+                    <span class="info-value">+${cfg.pyramid} pts → +${cfg.pyramidAdd}</span>
+                </div>` : ''}
+            </div>
+            <button class="btn btn-primary" onclick="proceedToOrb()">Set ORB</button>
+        </div>
+    `;
+}
+
+function screenInputOrbHigh() {
+    return `
+        <div class="screen active">
+            <div class="question">ORB HIGH?</div>
+            <div class="sub">Upper boundary of opening range</div>
+            <div class="input-wrap">
+                <input type="number" class="input" id="inp" inputmode="decimal" placeholder="21050">
+            </div>
+            <button class="btn btn-primary" onclick="submitOrbHigh(input('inp'))">Next</button>
+        </div>
+    `;
+}
+
+function screenInputOrbLow() {
+    return `
+        <div class="screen active">
+            <div class="question">ORB LOW?</div>
+            <div class="sub">Lower boundary of opening range</div>
+            <div class="input-wrap">
+                <input type="number" class="input" id="inp" inputmode="decimal" placeholder="20950">
+            </div>
+            <button class="btn btn-primary" onclick="submitOrbLow(input('inp'))">Next</button>
+        </div>
+    `;
+}
+
+function screenWaitingBreakout() {
+    const contracts = getContracts();
+    const stop = getStopPts();
+    const cfg = RULES.PHASES[S.phase];
+    
+    return `
+        <div class="screen active">
+            <div class="instruction">
+                <div class="instruction-title">If price breaks ${S.orbHigh}</div>
+                <div class="instruction-main">BUY ${contracts} FDAX</div>
+                <div class="instruction-detail">Stop loss: ${S.orbHigh - stop}</div>
+                ${cfg.fvs1 ? `<div class="instruction-detail">Buy ${cfg.fvs1Contracts} FVS1 hedge</div>` : ''}
+            </div>
+            <div class="instruction">
+                <div class="instruction-title">If price breaks ${S.orbLow}</div>
+                <div class="instruction-main">SELL ${contracts} FDAX</div>
+                <div class="instruction-detail">Stop loss: ${S.orbLow + stop}</div>
+                ${cfg.fvs1 ? `<div class="instruction-detail">Buy ${cfg.fvs1Contracts} FVS1 hedge</div>` : ''}
+            </div>
+            <div class="btn-row">
+                <button class="btn btn-long" onclick="breakoutTriggered('LONG')">LONG</button>
+                <button class="btn btn-short" onclick="breakoutTriggered('SHORT')">SHORT</button>
+            </div>
+            <button class="btn btn-ghost" onclick="noBreakout()">No breakout</button>
+        </div>
+    `;
+}
+
+function screenInputFill() {
+    return `
+        <div class="screen active">
+            <div class="direction ${S.tempDirection.toLowerCase()}">${S.tempDirection}</div>
+            <div class="question">Fill price?</div>
+            <div class="sub">Your actual entry price</div>
+            <div class="input-wrap">
+                <input type="number" class="input" id="inp" inputmode="decimal">
+            </div>
+            <button class="btn btn-primary" onclick="submitFillPrice(input('inp'))">Confirm</button>
+        </div>
+    `;
+}
+
+function screenPositionOpen() {
+    const p = S.position;
+    const totalContracts = p.contracts + p.pyramidContracts;
+    const cfg = RULES.PHASES[S.phase];
+    
+    return `
+        <div class="screen active">
+            <div class="direction ${p.direction.toLowerCase()}">${p.direction} ${totalContracts} FDAX</div>
+            
+            <div class="info-card">
+                <div class="info-row">
+                    <span class="info-label">Entry</span>
+                    <span class="info-value">${p.entry}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Stop Loss</span>
+                    <span class="info-value">${p.stop}${p.pyramided ? ' (BE)' : ''}</span>
+                </div>
+                ${!p.pyramided && p.pyramidLevel ? `<div class="info-row">
+                    <span class="info-label">Pyramid at</span>
+                    <span class="info-value">${p.pyramidLevel} → +${p.pyramidAdd}</span>
+                </div>` : ''}
+            </div>
+            
+            <button class="btn btn-primary" onclick="updatePnl()" style="margin-bottom:12px">Update P&L</button>
+            
+            ${!p.pyramided && p.pyramidLevel ? `<button class="btn btn-secondary" onclick="pyramidHit()" style="margin-bottom:12px">Pyramid Hit</button>` : ''}
+            
+            <div class="btn-row">
+                <button class="btn btn-secondary" onclick="stopHit()">Stop Hit</button>
+                <button class="btn btn-secondary" onclick="closeTrade()">Close</button>
+            </div>
+        </div>
+    `;
+}
+
+function screenPyramidTriggered() {
+    const p = S.position;
+    return `
+        <div class="screen active">
+            <div class="status">
+                <div class="status-icon">⚡</div>
+                <div class="status-title">PYRAMID</div>
+                <div class="status-sub">Add ${p.pyramidAdd} contracts</div>
+            </div>
+            <div class="instruction">
+                <div class="instruction-title">Action</div>
+                <div class="instruction-main">BUY ${p.pyramidAdd} more FDAX</div>
+                <div class="instruction-detail">Move stop to ${p.entry} (breakeven)</div>
+            </div>
+            <div class="question" style="font-size:20px;margin-top:24px">Pyramid fill price?</div>
+            <div class="input-wrap">
+                <input type="number" class="input" id="inp" inputmode="decimal" value="${p.pyramidLevel}">
+            </div>
+            <button class="btn btn-primary" onclick="submitPyramidFill(input('inp'))">Done</button>
+        </div>
+    `;
+}
+
+function screenInputCurrentPnl() {
+    return `
+        <div class="screen active">
+            <div class="question">Current P&L?</div>
+            <div class="sub">Your unrealized P&L right now</div>
+            <div class="input-wrap">
+                <input type="number" class="input" id="inp" inputmode="decimal" placeholder="0">
+            </div>
+            <button class="btn btn-primary" onclick="submitCurrentPnl(input('inp'))">Update</button>
+        </div>
+    `;
+}
+
+function screenRatchetClose() {
+    return `
+        <div class="screen active">
+            <div class="status">
+                <div class="status-icon">🔻</div>
+                <div class="status-title">RATCHET</div>
+                <div class="status-sub">P&L dropped 10% from peak</div>
+            </div>
+            <div class="info-card">
+                <div class="info-row">
+                    <span class="info-label">Peak P&L</span>
+                    <span class="info-value">${fmt(S.peakPnl)}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Current P&L</span>
+                    <span class="info-value">${fmt(S.ratchetPnl)}</span>
+                </div>
+            </div>
+            <div class="instruction">
+                <div class="instruction-title">Action</div>
+                <div class="instruction-main">CLOSE POSITION NOW</div>
+            </div>
+            <button class="btn btn-primary" onclick="ratchetClose()">Close Position</button>
+        </div>
+    `;
+}
+
+function screenStopHit() {
+    return `
+        <div class="screen active">
+            <div class="status">
+                <div class="status-icon">🛑</div>
+                <div class="status-title">STOPPED</div>
+            </div>
+            <div class="question">Exit price?</div>
+            <div class="input-wrap">
+                <input type="number" class="input" id="inp" inputmode="decimal" value="${S.position.stop}">
+            </div>
+            <button class="btn btn-primary" onclick="submitStopExit(input('inp'));go('INPUT_STOP_PNL')">Next</button>
+        </div>
+    `;
+}
+
+function screenInputStopPnl() {
+    return `
+        <div class="screen active">
+            <div class="question">Trade P&L?</div>
+            <div class="sub">Your realized P&L on this trade</div>
+            <div class="input-wrap">
+                <input type="number" class="input" id="inp" inputmode="decimal" placeholder="-3000">
+            </div>
+            <button class="btn btn-primary" onclick="submitStopPnl(input('inp'))">Next</button>
+        </div>
+    `;
+}
+
+function screenInputStopCapital() {
+    return `
+        <div class="screen active">
+            <div class="question">Current capital?</div>
+            <div class="sub">Your account balance now</div>
+            <div class="input-wrap">
+                <input type="number" class="input" id="inp" inputmode="numeric">
+            </div>
+            <button class="btn btn-primary" onclick="submitStopCapital(input('inp'))">Next</button>
+        </div>
+    `;
+}
+
+function screenCooldown() {
+    return `
+        <div class="screen active">
+            <div class="status">
+                <div class="status-icon">⏱️</div>
+                <div class="status-title">COOLDOWN</div>
+                <div class="status-sub">Wait 15-30 minutes</div>
+            </div>
+            <div class="info-card">
+                <div class="info-row">
+                    <span class="info-label">Stops today</span>
+                    <span class="info-value">${S.stopsToday}/3</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Trades today</span>
+                    <span class="info-value">${S.tradesCount}/3</span>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="cooldownDone()">Ready to Re-enter</button>
+            <button class="btn btn-ghost" onclick="skipReentry()">Done for today</button>
+        </div>
+    `;
+}
+
+function screenSelectSignal() {
+    const p2p3 = S.phase >= 2;
+    return `
+        <div class="screen active">
+            <div class="question">Re-entry signal?</div>
+            <div class="sub">Must be NEW signal, not same level</div>
+            
+            <button class="btn btn-secondary" onclick="selectSignal('ORB_RECLAIM')">ORB Reclaim</button>
+            <button class="btn btn-secondary" onclick="selectSignal('VWAP_RECLAIM')">VWAP Reclaim</button>
+            <button class="btn btn-secondary" onclick="selectSignal('FAILED_BREAKDOWN')">Failed Breakdown</button>
+            ${p2p3 ? `
+                <button class="btn btn-secondary" onclick="selectSignal('HIGHER_LOW')">Higher Low</button>
+                <button class="btn btn-secondary" onclick="selectSignal('15M_CLOSE')">15-Min Close</button>
+                <button class="btn btn-secondary" onclick="selectSignal('ADX_THRUST')">ADX Thrust</button>
+            ` : ''}
+            
+            <button class="btn btn-ghost" onclick="noReentrySignal()">No valid signal</button>
+        </div>
+    `;
+}
+
+function screenWaitingReentry() {
+    const contracts = getContracts();
+    const stop = getStopPts();
+    
+    return `
+        <div class="screen active">
+            <div class="question">Waiting for ${S.tempSignal.replace('_', ' ')}</div>
+            <div class="sub">When signal triggers, tap direction</div>
+            
+            <div class="info-card">
+                <div class="info-row">
+                    <span class="info-label">Contracts</span>
+                    <span class="info-value">${contracts} FDAX</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Stop</span>
+                    <span class="info-value">${stop} pts</span>
+                </div>
+            </div>
+            
+            <div class="btn-row">
+                <button class="btn btn-long" onclick="reentryTriggered('LONG')">LONG</button>
+                <button class="btn btn-short" onclick="reentryTriggered('SHORT')">SHORT</button>
+            </div>
+            <button class="btn btn-ghost" onclick="noReentrySignal()">No signal</button>
+        </div>
+    `;
+}
+
+function screenCloseTrade() {
+    return `
+        <div class="screen active">
+            <div class="question">Exit price?</div>
+            <div class="sub">Your closing price</div>
+            <div class="input-wrap">
+                <input type="number" class="input" id="inp" inputmode="decimal">
+            </div>
+            <button class="btn btn-primary" onclick="submitCloseExit(input('inp'));go('INPUT_CLOSE_PNL')">Next</button>
+        </div>
+    `;
+}
+
+function screenInputClosePnl() {
+    return `
+        <div class="screen active">
+            <div class="question">Trade P&L?</div>
+            <div class="sub">Your realized P&L on this trade</div>
+            <div class="input-wrap">
+                <input type="number" class="input" id="inp" inputmode="decimal">
+            </div>
+            <button class="btn btn-primary" onclick="submitClosePnl(input('inp'))">Next</button>
+        </div>
+    `;
+}
+
+function screenInputCloseCapital() {
+    return `
+        <div class="screen active">
+            <div class="question">Current capital?</div>
+            <div class="sub">Your account balance now</div>
+            <div class="input-wrap">
+                <input type="number" class="input" id="inp" inputmode="numeric">
+            </div>
+            <button class="btn btn-primary" onclick="submitCloseCapital(input('inp'))">Next</button>
+        </div>
+    `;
+}
+
+function screenEodHold() {
+    const p = S.position;
+    return `
+        <div class="screen active">
+            <div class="status">
+                <div class="status-icon">🌙</div>
+                <div class="status-title">HOLD OVERNIGHT</div>
+                <div class="status-sub">${p.direction} ${p.contracts + p.pyramidContracts} FDAX</div>
+            </div>
+            <div class="question" style="font-size:20px;margin-top:24px">Close price?</div>
+            <div class="sub">For gap calculation tomorrow</div>
+            <div class="input-wrap">
+                <input type="number" class="input" id="inp" inputmode="decimal">
+            </div>
+            <button class="btn btn-primary" onclick="confirmEodHold(input('inp'))">Confirm Hold</button>
+            <button class="btn btn-ghost" onclick="eodClose()">Close instead</button>
+        </div>
+    `;
+}
+
+function screenEodClose() {
+    return `
+        <div class="screen active">
+            <div class="question">Exit price?</div>
+            <div class="sub">End of day closing price</div>
+            <div class="input-wrap">
+                <input type="number" class="input" id="inp" inputmode="decimal">
+            </div>
+            <button class="btn btn-primary" onclick="submitCloseExit(input('inp'));go('INPUT_CLOSE_PNL')">Next</button>
+        </div>
+    `;
+}
+
+function screenDayComplete() {
+    return `
+        <div class="screen active">
+            <div class="status">
+                <div class="status-icon">✓</div>
+                <div class="status-title">Day Complete</div>
+                <div class="status-sub">${S.overnight ? 'Holding overnight' : 'Flat'}</div>
+            </div>
+            <div class="info-card">
+                <div class="info-row">
+                    <span class="info-label">Capital</span>
+                    <span class="info-value">${fmt(S.capital)}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Phase</span>
+                    <span class="info-value">${S.phase}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Trades</span>
+                    <span class="info-value">${S.tradesCount}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Stops</span>
+                    <span class="info-value">${S.stopsToday}</span>
+                </div>
+            </div>
+            ${S.overnight ? `
+                <div class="instruction">
+                    <div class="instruction-title">Overnight Position</div>
+                    <div class="instruction-main">${S.overnight.direction} ${S.overnight.contracts} FDAX</div>
+                    <div class="instruction-detail">Close: ${S.overnight.closePrice}</div>
+                </div>
+            ` : ''}
+            <button class="btn btn-primary" onclick="nextDay()">Next Day</button>
+        </div>
+    `;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════════════════════
+render();
+
+// PWA Service Worker (inline)
+if ('serviceWorker' in navigator) {
+    const swCode = `
+        const CACHE = 'switchblade-v31';
+        self.addEventListener('install', e => {
+            e.waitUntil(caches.open(CACHE).then(c => c.addAll(['/'])));
+            self.skipWaiting();
+        });
+        self.addEventListener('fetch', e => {
+            e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
+        });
+    `;
+    const blob = new Blob([swCode], {type: 'application/javascript'});
+    const swUrl = URL.createObjectURL(blob);
+    navigator.serviceWorker.register(swUrl).catch(() => {});
+}
+</script>
+</body>
+</html>
