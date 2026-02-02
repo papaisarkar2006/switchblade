@@ -6,270 +6,240 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#000000">
-    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiU1dJVENIQkxBREUgdjMxIiwic2hvcnRfbmFtZSI6IlNXSVRDSEJMQURFIiwiZGVzY3JpcHRpb24iOiJMRUFQIENvbXBldGl0aW9uIEV4ZWN1dG9yIiwic3RhcnRfdXJsIjoiLiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMwMDAwMDAiLCJ0aGVtZV9jb2xvciI6IiMwMDAwMDAiLCJvcmllbnRhdGlvbiI6InBvcnRyYWl0IiwiaWNvbnMiOlt7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbCw8c3ZnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zycgdmlld0JveD0nMCAwIDEwMCAxMDAnPjxyZWN0IHdpZHRoPScxMDAnIGhlaWdodD0nMTAwJyBmaWxsPScjMDAwJy8+PHRleHQgeD0nNTAnIHk9JzU1JyBmb250LXNpemU9JzUwJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmaWxsPScjZjM5YzEyJz7imqQ8L3RleHQ+PC9zdmc+Iiwic2l6ZXMiOiIxOTJ4MTkyIiwidHlwZSI6ImltYWdlL3N2Zyt4bWwifV19">
-    <title>SWITCHBLADE v31</title>
+    <title>SWITCHBLADE v33.1</title>
     <style>
-        :root{--bg:#000;--card:#0a0a0a;--border:#1a1a1a;--text:#fff;--dim:#555;--accent:#f39c12;--green:#00d26a;--red:#ff4757}
+        :root{--bg:#000;--card:#0a0a0a;--border:#1a1a1a;--text:#fff;--dim:#555;--accent:#f39c12;--green:#00d26a;--red:#ff4757;--blue:#3498db;--purple:#9b59b6;--cyan:#00bcd4}
         *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
         html,body{height:100%;overflow:hidden}
         body{font-family:-apple-system,BlinkMacSystemFont,system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:18px}
-        .app{display:flex;flex-direction:column;height:100dvh;max-width:420px;margin:0 auto;padding:20px;padding-top:env(safe-area-inset-top)}
-        
-        /* Header */
-        .header{display:flex;justify-content:space-between;align-items:center;padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:20px}
-        .logo{font-size:14px;font-weight:600;color:var(--accent)}
-        .phase-badge{font-size:12px;padding:4px 10px;border-radius:20px;font-weight:600}
+        .app{display:flex;flex-direction:column;height:100dvh;max-width:420px;margin:0 auto;padding:16px;padding-top:env(safe-area-inset-top)}
+        .header{display:flex;justify-content:space-between;align-items:center;padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:12px}
+        .header-left{display:flex;align-items:center;gap:10px}
+        .back-btn{font-size:14px;color:var(--text);cursor:pointer;opacity:0.7;padding:4px 0;display:none}
+        .back-btn.visible{display:block}
+        .logo{font-size:13px;font-weight:600;color:var(--accent)}
+        .header-right{display:flex;align-items:center;gap:10px}
+        .reset-btn{font-size:11px;color:var(--dim);cursor:pointer;padding:4px 8px;border:1px solid var(--border);border-radius:8px}
+        .phase-badge{font-size:11px;padding:3px 8px;border-radius:20px;font-weight:700}
         .phase-1{background:#1a5276;color:#fff}
         .phase-2{background:#b9770e;color:#fff}
         .phase-3{background:#922b21;color:#fff}
-        
-        /* Main content */
-        .main{flex:1;display:flex;flex-direction:column;justify-content:center}
-        
-        /* Screen */
+        .main{flex:1;display:flex;flex-direction:column;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:16px}
         .screen{display:none;flex-direction:column;animation:fadeIn .2s ease}
         .screen.active{display:flex}
-        @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-        
-        /* Question */
-        .question{font-size:32px;font-weight:700;margin-bottom:8px;line-height:1.2}
-        .sub{font-size:16px;color:var(--dim);margin-bottom:40px}
-        
-        /* Input */
-        .input-wrap{margin-bottom:24px}
-        .input{width:100%;padding:20px;font-size:32px;font-family:monospace;font-weight:700;background:var(--card);border:2px solid var(--border);border-radius:16px;color:var(--text);text-align:center}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+        .question{font-size:26px;font-weight:700;margin-bottom:4px;line-height:1.2}
+        .sub{font-size:13px;color:var(--dim);margin-bottom:20px;line-height:1.4}
+        .input-wrap{margin-bottom:16px}
+        .input{width:100%;padding:14px;font-size:26px;font-family:monospace;font-weight:700;background:var(--card);border:2px solid var(--border);border-radius:14px;color:var(--text);text-align:center}
         .input:focus{outline:none;border-color:var(--accent)}
-        .input-unit{font-size:14px;color:var(--dim);text-align:center;margin-top:8px}
-        
-        /* Quick adjust buttons */
-        .quick-btns{display:flex;justify-content:center;gap:8px;margin-top:12px}
-        .quick-btn{padding:8px 16px;font-size:14px;font-weight:600;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--dim);cursor:pointer}
-        .quick-btn:active{background:var(--border)}
-        
-        /* Buttons */
-        .btn{width:100%;padding:20px;font-size:20px;font-weight:600;border:none;border-radius:16px;cursor:pointer;margin-bottom:12px}
-        .btn:active{transform:scale(.98);opacity:.9}
+        .input-unit{font-size:12px;color:var(--dim);text-align:center;margin-top:4px}
+        .btn{width:100%;padding:14px;font-size:16px;font-weight:600;border:none;border-radius:14px;cursor:pointer;margin-bottom:8px}
         .btn-primary{background:var(--accent);color:#000}
-        .btn-long{background:var(--green);color:#000}
-        .btn-short{background:var(--red);color:#fff}
+        .btn-primary:active{opacity:.8}
         .btn-secondary{background:var(--card);color:var(--text);border:1px solid var(--border)}
-        .btn-ghost{background:transparent;color:var(--dim);font-size:16px;padding:12px}
-        
-        .btn-row{display:flex;gap:12px}
+        .btn-secondary:active{background:var(--border)}
+        .btn-ghost{background:transparent;color:var(--dim);font-size:13px;padding:10px}
+        .btn-ghost:active{color:var(--text)}
+        .btn-row{display:flex;gap:8px}
         .btn-row .btn{flex:1}
-        
-        /* Info display */
-        .info-card{background:var(--card);border-radius:16px;padding:20px;margin-bottom:24px;border:1px solid var(--border)}
-        .info-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)}
+        .btn-long{background:#0e6251;color:var(--green)}
+        .btn-short{background:#641e16;color:var(--red)}
+        .info-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:12px}
+        .info-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border)}
         .info-row:last-child{border-bottom:none}
-        .info-label{color:var(--dim);font-size:14px}
-        .info-value{font-weight:600;font-family:monospace}
-        
-        /* Instruction */
-        .instruction{background:var(--card);border-radius:16px;padding:24px;margin-bottom:24px;border-left:4px solid var(--accent)}
-        .instruction-title{font-size:14px;color:var(--accent);font-weight:600;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px}
-        .instruction-main{font-size:24px;font-weight:700;margin-bottom:8px}
-        .instruction-detail{font-size:16px;color:var(--dim)}
-        
-        /* Direction badge */
-        .direction{display:inline-block;padding:8px 24px;border-radius:12px;font-size:20px;font-weight:700;margin-bottom:16px}
-        .direction.long{background:var(--green);color:#000}
-        .direction.short{background:var(--red);color:#fff}
-        
-        /* Big number display */
-        .big-num{font-size:56px;font-weight:700;font-family:monospace;text-align:center;margin-bottom:8px}
-        .big-num.positive{color:var(--green)}
-        .big-num.negative{color:var(--red)}
-        .big-label{font-size:14px;color:var(--dim);text-align:center;text-transform:uppercase;letter-spacing:1px}
-        
-        /* Status */
-        .status{text-align:center;padding:40px 20px}
-        .status-icon{font-size:64px;margin-bottom:16px}
-        .status-title{font-size:28px;font-weight:700;margin-bottom:8px}
-        .status-sub{font-size:16px;color:var(--dim)}
-        
-        /* Footer */
-        .footer{padding-top:16px;border-top:1px solid var(--border);margin-top:auto}
-        .footer-text{font-size:12px;color:var(--dim);text-align:center}
-        
-        /* Reset */
-        .reset-btn{position:fixed;top:20px;right:20px;font-size:11px;color:var(--dim);background:none;border:none;padding:8px}
+        .info-label{color:var(--dim);font-size:13px}
+        .info-value{font-weight:600;font-size:13px;font-family:monospace}
+        .direction{font-size:18px;font-weight:700;padding:10px;border-radius:10px;text-align:center;margin-bottom:12px}
+        .long{background:#0e6251;color:var(--green)}
+        .short{background:#641e16;color:var(--red)}
+        .status{text-align:center;padding:20px 0}
+        .status-icon{font-size:44px;margin-bottom:8px}
+        .status-title{font-size:26px;font-weight:700;margin-bottom:4px}
+        .status-sub{font-size:13px;color:var(--dim)}
+        .action-card{background:#1a1a0a;border:2px solid var(--accent);border-radius:10px;padding:12px;margin-bottom:10px}
+        .action-card.green{background:#0a1a0a;border-color:var(--green)}
+        .action-card.red{background:#1a0a0a;border-color:var(--red)}
+        .action-card.blue{background:#0a0a1a;border-color:var(--blue)}
+        .action-card.purple{background:#120a1a;border-color:var(--purple)}
+        .action-card.cyan{background:#0a1a1a;border-color:var(--cyan)}
+        .action-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;color:var(--accent)}
+        .action-card.green .action-title{color:var(--green)}
+        .action-card.red .action-title{color:var(--red)}
+        .action-card.blue .action-title{color:var(--blue)}
+        .action-card.purple .action-title{color:var(--purple)}
+        .action-card.cyan .action-title{color:var(--cyan)}
+        .action-main{font-size:20px;font-weight:700;font-family:monospace}
+        .action-sub{font-size:11px;color:var(--dim);margin-top:3px}
+        .signal-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:8px;cursor:pointer}
+        .signal-card:active{border-color:var(--accent)}
+        .signal-name{font-weight:700;font-size:15px;margin-bottom:2px}
+        .signal-desc{font-size:11px;color:var(--dim);line-height:1.3}
+        .tag{display:inline-block;font-size:9px;padding:2px 6px;border-radius:4px;font-weight:700;margin-left:6px;vertical-align:middle}
+        .tag-monster{background:#6c3483;color:#fff}
+        .tag-trend{background:#1a5276;color:#fff}
+        .tag-crash{background:#641e16;color:#fff}
+        .inst-row{display:flex;flex-wrap:wrap;gap:4px;margin:6px 0}
+        .inst-chip{font-size:11px;padding:2px 6px;border-radius:4px;font-weight:600;font-family:monospace}
+        .inst-eq{background:#1a3a2a;color:var(--green)}
+        .inst-vol{background:#3a1a2a;color:#ff6b9d}
+        .inst-bond{background:#1a2a3a;color:var(--blue)}
+        .footer{text-align:center;padding:8px;font-size:11px;color:var(--dim);border-top:1px solid var(--border);margin-top:auto;flex-shrink:0}
     </style>
 </head>
 <body>
 <div class="app">
-    <header class="header">
-        <div class="logo">⚔️ SWITCHBLADE v31</div>
-        <div class="phase-badge phase-1" id="phase-badge">PHASE 1</div>
-    </header>
-    <main class="main" id="main"></main>
-    <footer class="footer">
-        <div class="footer-text" id="footer">Day 1 of 20</div>
-    </footer>
+    <div class="header">
+        <div class="header-left">
+            <span id="back-btn" class="back-btn" onclick="goBack()">← Back</span>
+            <div class="logo">⚔ SWITCHBLADE v33.1</div>
+        </div>
+        <div class="header-right">
+            <span class="reset-btn" onclick="showResetConfirm()">Reset</span>
+            <div id="phase-badge" class="phase-badge phase-1">PHASE 1</div>
+        </div>
+    </div>
+    <div class="main" id="main"></div>
+    <div class="footer" id="footer">Day 1 of 20 │ €100,000</div>
 </div>
-<button class="reset-btn" onclick="if(confirm('Reset all data?'))resetApp()">Reset</button>
-
 <script>
 // ═══════════════════════════════════════════════════════════════════════════════
-// SWITCHBLADE v31 ENGINE - "Earn the Right to Risk"
-// 100% Faithful Implementation
+// INSTRUMENTS
 // ═══════════════════════════════════════════════════════════════════════════════
+// INSTRUMENT DEFINITIONS — matching v33.1 backtest exactly
+// pv = point value in €, max = competition limit
+// beta = dax_beta from backtest (used for risk/P&L calculation)
+// ═══════════════════════════════════════════════════════════════════════════════
+const INST = {
+    FDAX:  { pv: 25,   max: 2, beta: 1.00,  type: 'equity' },
+    FESX:  { pv: 10,   max: 4, beta: 0.85,  type: 'equity' },
+    FDXS:  { pv: 5,    max: 4, beta: 1.00,  type: 'equity' },
+    FDXM:  { pv: 1,    max: 2, beta: 1.00,  type: 'equity' },
+    FXXP:  { pv: 10,   max: 4, beta: 0.75,  type: 'equity' },
+    FESB:  { pv: 10,   max: 4, beta: 1.20,  type: 'equity' },
+    FVS1:  { pv: 100,  max: 4, beta: -0.06, type: 'vol' },
+    FGBL:  { pv: 1000, max: 2, beta: -0.003, type: 'bond' },
+    FGBM:  { pv: 1000, max: 2, beta: -0.002, type: 'bond' },
+    FGBS:  { pv: 1000, max: 2, beta: -0.001, type: 'bond' },
+    FBON:  { pv: 1000, max: 2, beta: -0.003, type: 'bond' },
+};
 
-const RULES = {
-    START_CAPITAL: 100000,
-    PHASE1_THRESHOLD: 105000,
-    PHASE2_THRESHOLD: 130000,
-    DOWNGRADE_THRESHOLD: 102000,
-    BUST_THRESHOLD: 70000,
-    POINT_VALUE: 25,
-    COMPETITION_DAYS: 20,
-    
-    PHASES: {
-        1: {
-            name: 'GRIND',
-            contracts: 1,
-            stop: 30,
-            fvs1: false,
-            pyramid: null,
-            pyramidAdd: 0,
-            overnight: 'NEVER'
-        },
-        2: {
-            name: 'RAMP',
-            contracts: 2,
-            contractsMonster: 3,
-            stop: 60,
-            fvs1: true,
-            fvs1Contracts: 2,
-            pyramid: 50,
-            pyramidAdd: 2,
-            overnight: 'TREND_MONSTER_2K' // TREND/MONSTER + profit > €2000
-        },
-        3: {
-            name: 'KILL',
-            contracts: 4,
-            stop: 80,
-            maxRiskPct: 0.10,
-            fvs1: true,
-            fvs1Contracts: 2,
-            pyramid: 40,
-            pyramidAdd: 3,
-            overnight: 'TREND_MONSTER_WIN' // TREND/MONSTER + any profit
-        }
+// ═══════════════════════════════════════════════════════════════════════════════
+// DEPLOYMENT TABLES — v33.1
+// ═══════════════════════════════════════════════════════════════════════════════
+const DEPLOY = {
+    1: {
+        CHOP: {},
+        NORMAL:  { FDAX:1, FESX:2, FDXS:2 },
+        TREND:   { FDAX:1, FESX:2, FDXS:4, FDXM:2 },
+        MONSTER: { FDAX:2, FESX:3, FDXS:4, FXXP:2, FDXM:2 },
+    },
+    2: {
+        CHOP:    { FDAX:1, FDXS:2 },
+        NORMAL:  { FDAX:2, FESX:4, FDXS:4 },
+        TREND:   { FDAX:2, FESX:4, FDXS:4, FXXP:4, FESB:2, FDXM:2 },
+        MONSTER: { FDAX:2, FESX:4, FDXS:4, FXXP:4, FESB:4, FDXM:2 },
+        CRASH:   { FDAX:2, FESX:4, FDXS:4, FXXP:4, FESB:4, FDXM:2, FVS1:4, FGBL:2, FGBM:1 },
+    },
+    3: {
+        CHOP:    { FDAX:2, FESX:2, FDXS:2 },
+        NORMAL:  { FDAX:2, FESX:4, FDXS:4, FXXP:4, FDXM:2 },
+        TREND:   { FDAX:2, FESX:4, FDXS:4, FXXP:4, FESB:4, FDXM:2 },
+        MONSTER: { FDAX:2, FESX:4, FDXS:4, FXXP:4, FESB:4, FDXM:2 },
+        CRASH:   { FDAX:2, FESX:4, FDXS:4, FXXP:4, FESB:4, FDXM:2, FVS1:4, FGBL:2, FGBM:2, FGBS:2, FBON:2 },
     }
 };
 
-const STATES = [
-    'MORNING_LOAD',
-    'GAP_OPEN_PRICE',
-    'GAP_PNL',
-    'GAP_CAPITAL',
-    'INPUT_CAPITAL',
-    'INPUT_RANGE',
-    'INPUT_ADX',
-    'NO_TRADE',
-    'BUSTED',
-    'SHOW_SIZING',
-    'INPUT_ORB_HIGH',
-    'INPUT_ORB_LOW',
-    'WAITING_BREAKOUT',
-    'INPUT_FILL_PRICE',
-    'POSITION_OPEN',
-    'PYRAMID_TRIGGERED',
-    'INPUT_PYRAMID_FILL',
-    'INPUT_CURRENT_PNL',
-    'RATCHET_CLOSE',
-    'STOP_HIT',
-    'INPUT_STOP_EXIT',
-    'INPUT_STOP_PNL',
-    'INPUT_STOP_CAPITAL',
-    'COOLDOWN',
-    'SELECT_REENTRY_SIGNAL',
-    'WAITING_REENTRY',
-    'CLOSE_TRADE',
-    'INPUT_CLOSE_EXIT',
-    'INPUT_CLOSE_PNL',
-    'INPUT_CLOSE_CAPITAL',
-    'EOD_HOLD',
-    'EOD_CLOSE',
-    'INPUT_EOD_PRICE',
-    'DAY_COMPLETE'
-];
+// ═══════════════════════════════════════════════════════════════════════════════
+// RULES — v33.1
+// ═══════════════════════════════════════════════════════════════════════════════
+const RULES = {
+    START_CAPITAL: 100000,
+    PHASE2_THRESHOLD: 102000,
+    PHASE3_THRESHOLD: 120000,
+    DOWNGRADE_P2_P1: 100500,
+    DOWNGRADE_P3_P2: 112000,
+    BUST_THRESHOLD: 70000,
+    COMPETITION_DAYS: 20,
+    MAX_STOPS_DAY: 3,
+    RISK_CAP: { 1: 0.05, 2: 0.07, 3: 0.10 },
+    PYRAMID_TRIGGER: 40, // pts, add remaining equity instruments
+
+    STOP_TABLE: {
+        CHOP:    { stop: 20, trail: 10, activate: 20 },
+        NORMAL:  { stop: 30, trail: 15, activate: 30 },
+        TREND:   { stop: 40, trail: 25, activate: 40 },
+        MONSTER: { stop: 50, trail: 35, activate: 50 },
+    },
+
+    SIGNALS: {
+        CHOP:    ['VWAP_RECLAIM','ORB_RECLAIM'],
+        NORMAL:  ['VWAP_RECLAIM','HIGHER_LOW','15M_CLOSE'],
+        TREND:   ['EMA_BOUNCE','HALF_PULLBACK','LEVEL_RETEST'],
+        MONSTER: ['EMA_BOUNCE','ANY_PULLBACK']
+    },
+
+    PHASE_NAMES: { 1: 'THE GRIND', 2: 'THE RAMP', 3: 'THE KILL' }
+};
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // STATE
 // ═══════════════════════════════════════════════════════════════════════════════
-
 let S = loadState() || createInitialState();
 
 function createInitialState() {
     return {
-        // Persistent
-        startDate: null,
-        capital: RULES.START_CAPITAL,
-        phase: 1,
-        day: 1,
-        history: [],
-        
-        // Session
+        startDate: null, capital: RULES.START_CAPITAL,
+        phase: 1, day: 1, history: [],
         currentState: 'MORNING_LOAD',
-        sessionDate: null,
-        range: null,
-        adx: null,
-        dayType: null,
-        stopsToday: 0,
-        tradesCount: 0,
-        orbHigh: null,
-        orbLow: null,
-        
-        // Position
-        position: null,
-        
-        // Overnight
-        overnight: null,
-        
-        // Temp
-        tempDirection: null,
-        tempSignal: null,
-        peakPnl: 0
+        sessionDate: null, range: null, adx: null,
+        dayType: null, stopsToday: 0, tradesCount: 0,
+        winsToday: 0,
+        orbHigh: null, orbLow: null,
+        position: null, overnight: null,
+        tempDirection: null, tempSignal: null,
+        peakPnl: 0,
+        currentTrailStop: null, nextAlertPrice: null,
+        trailHistory: [], cooldownStart: null,
+        lastExitType: null,
+        isCrash: false // user toggle for crash mode
     };
 }
 
 function loadState() {
     try {
-        const saved = localStorage.getItem('switchblade_v31_final');
-        if (saved) return JSON.parse(saved);
+        const s = localStorage.getItem('switchblade_v33');
+        if (s) return JSON.parse(s);
     } catch(e) {}
     return null;
 }
+function saveState() { localStorage.setItem('switchblade_v33', JSON.stringify(S)); }
+function resetApp() { localStorage.removeItem('switchblade_v33'); S = createInitialState(); render(); }
 
-function saveState() {
-    localStorage.setItem('switchblade_v31_final', JSON.stringify(S));
+function showResetConfirm() {
+    S._preResetState = S.currentState;
+    S.currentState = 'RESET_CONFIRM';
+    render();
 }
-
-function resetApp() {
-    localStorage.removeItem('switchblade_v31_final');
-    S = createInitialState();
+function cancelReset() {
+    S.currentState = S._preResetState || 'MORNING_LOAD';
+    delete S._preResetState;
     render();
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // HELPERS
 // ═══════════════════════════════════════════════════════════════════════════════
-
 function getPhase(capital) {
-    if (capital >= RULES.PHASE2_THRESHOLD) return 3;
-    // Day 16+ Hail Mary: force Phase 3 if behind
-    if (S.day >= 16 && capital < RULES.PHASE2_THRESHOLD) return 3;
-    if (capital >= RULES.PHASE1_THRESHOLD) return 2;
+    if (capital >= RULES.PHASE3_THRESHOLD) return 3;
+    if (S.day >= 16 && capital < RULES.PHASE3_THRESHOLD) return 3; // Hail Mary
+    if (capital >= RULES.PHASE2_THRESHOLD) return 2;
     return 1;
 }
 
 function checkDowngrade() {
-    if (S.phase === 2 && S.capital < RULES.DOWNGRADE_THRESHOLD) {
-        S.phase = 1;
-        return true;
-    }
+    if (S.phase === 3 && S.capital < RULES.DOWNGRADE_P3_P2) { S.phase = 2; return true; }
+    if (S.phase === 2 && S.capital < RULES.DOWNGRADE_P2_P1) { S.phase = 1; return true; }
     return false;
 }
 
@@ -280,1002 +250,1105 @@ function getDayType(range) {
     return 'CHOP';
 }
 
-function isTrendOrMonster() {
-    return S.dayType === 'TREND' || S.dayType === 'MONSTER';
+function getEffectiveDayType() {
+    // CRASH overrides MONSTER/TREND for SHORT direction
+    if (S.isCrash && S.phase >= 2 && (S.dayType === 'MONSTER' || S.dayType === 'TREND')) return 'CRASH';
+    return S.dayType;
 }
 
-function getContracts() {
-    const cfg = RULES.PHASES[S.phase];
-    let contracts = cfg.contracts;
-    
-    if (S.phase >= 2 && S.dayType === 'MONSTER' && cfg.contractsMonster) {
-        contracts = cfg.contractsMonster;
-    }
-    
-    // Phase 3: cap at 10% risk
-    if (S.phase === 3) {
-        const maxRisk = S.capital * cfg.maxRiskPct;
-        const maxContracts = Math.floor(maxRisk / (cfg.stop * RULES.POINT_VALUE));
-        contracts = Math.min(contracts, Math.max(1, maxContracts));
-    }
-    
-    return contracts;
+function getDeployment() {
+    const ph = S.phase;
+    const dt = getEffectiveDayType();
+    const phaseDeploy = DEPLOY[ph];
+    if (!phaseDeploy) return {};
+    return phaseDeploy[dt] || phaseDeploy[S.dayType] || {};
 }
 
-function getStopPts() {
-    return RULES.PHASES[S.phase].stop;
+function getPyramidInstruments() {
+    // Returns instruments to add at +40pt pyramid trigger
+    const current = getDeployment();
+    const allEquity = ['FDAX','FESX','FDXS','FDXM','FXXP','FESB'];
+    const toAdd = {};
+    for (const inst of allEquity) {
+        if (!current[inst]) {
+            toAdd[inst] = Math.min(2, INST[inst].max);
+        }
+    }
+    return toAdd;
+}
+
+function hasPyramidInstruments() {
+    return Object.keys(getPyramidInstruments()).length > 0 && (S.dayType === 'MONSTER' || S.dayType === 'TREND');
+}
+
+function getStopConfig() {
+    return RULES.STOP_TABLE[S.dayType] || RULES.STOP_TABLE.NORMAL;
+}
+
+function computeRisk(deploy, daxStopPts) {
+    // Matches backtest compute_risk exactly
+    let total = 0;
+    for (const [inst, qty] of Object.entries(deploy)) {
+        const info = INST[inst];
+        if (info.type === 'equity') {
+            total += qty * daxStopPts * Math.abs(info.beta) * info.pv;
+        } else if (info.type === 'vol') {
+            total += qty * daxStopPts * 0.02 * info.pv;  // backtest hardcode
+        } else if (info.type === 'bond') {
+            total += qty * daxStopPts * 0.001 * info.pv;  // backtest hardcode
+        }
+    }
+    return total;
+}
+
+function computeEquityPtsValue(deploy) {
+    // €/DAX-pt for equity instruments only (matches backtest)
+    let total = 0;
+    for (const [inst, qty] of Object.entries(deploy)) {
+        const info = INST[inst];
+        if (info.type === 'equity') {
+            total += qty * Math.abs(info.beta) * info.pv;
+        }
+    }
+    return total;
+}
+
+function computeFullPortfolioPtsValue(deploy) {
+    // €/DAX-pt for ALL instruments (matches backtest risk model)
+    let total = 0;
+    for (const [inst, qty] of Object.entries(deploy)) {
+        const info = INST[inst];
+        if (info.type === 'equity') {
+            total += qty * Math.abs(info.beta) * info.pv;
+        } else if (info.type === 'vol') {
+            total += qty * 0.02 * info.pv;
+        } else if (info.type === 'bond') {
+            total += qty * 0.001 * info.pv;
+        }
+    }
+    return total;
+}
+
+function getPortfolioPtsValue(deploy) {
+    // Smart dispatcher: use full portfolio calc when vol/bond instruments present
+    const hasNonEquity = Object.keys(deploy).some(k => INST[k].type !== 'equity');
+    if (hasNonEquity) {
+        return computeFullPortfolioPtsValue(deploy);
+    }
+    return computeEquityPtsValue(deploy);
 }
 
 function canTrade() {
     if (S.capital < RULES.BUST_THRESHOLD) return { can: false, reason: 'BUSTED' };
     if (S.adx < 18) return { can: false, reason: 'ADX ' + S.adx + ' < 18' };
     if (S.phase === 1 && S.dayType === 'CHOP') return { can: false, reason: 'Phase 1 + CHOP' };
-    if (S.stopsToday >= 3) return { can: false, reason: '3 stops reached' };
-    if (S.tradesCount >= 3) return { can: false, reason: '3 trades reached' };
+    if (S.stopsToday >= RULES.MAX_STOPS_DAY) return { can: false, reason: '3 stops reached' };
     return { can: true };
 }
 
 function canReenter() {
-    if (S.stopsToday >= 3) return false;
-    if (S.tradesCount >= 3) return false;
+    if (S.stopsToday >= RULES.MAX_STOPS_DAY) return false;
     if (S.adx < 18) return false;
-    // Assume before 15:00 CET - user handles time
     return true;
 }
 
+function getRiskCappedDeployment() {
+    // Spec-pure: always return the deployment table as-is
+    // Risk cap is informational (shown on sizing screen) not enforced by scaling
+    return getDeployment();
+}
+
+function isRiskExceeded() {
+    const deploy = getDeployment();
+    const sc = getStopConfig();
+    const risk = computeRisk(deploy, sc.stop);
+    const maxRisk = S.capital * RULES.RISK_CAP[S.phase];
+    return risk > maxRisk;
+}
+
 function checkOvernightEligible(pnl) {
-    if (!isTrendOrMonster()) return false;
-    
-    if (S.phase === 1) return false;
-    if (S.phase === 2) return pnl > 2000;
-    if (S.phase === 3) return pnl > 0;
+    const dt = S.dayType;
+    const ph = S.phase;
+    if (ph === 1) return dt === 'MONSTER' && pnl > 2000;
+    if (ph === 2) return (dt === 'TREND' || dt === 'MONSTER') && pnl > 1500;
+    if (ph === 3) {
+        if (dt === 'TREND' || dt === 'MONSTER') return true;
+        if (dt === 'NORMAL' && pnl > 3000) return true;
+    }
     return false;
 }
 
+function getOvernightDeployment() {
+    // Phase 1: core only (FDAX+FDXS)
+    if (S.phase === 1) {
+        const d = getDeployment();
+        const core = {};
+        if (d.FDAX) core.FDAX = d.FDAX;
+        if (d.FDXS) core.FDXS = d.FDXS;
+        return core;
+    }
+    // Phase 2/3: full deployment
+    return getDeployment();
+}
+
 function checkRatchet(currentPnl) {
-    if (currentPnl > S.peakPnl) {
-        S.peakPnl = currentPnl;
-        return false;
-    }
-    if (S.peakPnl > 0 && currentPnl <= S.peakPnl * 0.90) {
-        return true; // Ratchet triggered
-    }
+    if (currentPnl > S.peakPnl) { S.peakPnl = currentPnl; return false; }
+    if (S.peakPnl > 0 && currentPnl <= S.peakPnl * 0.90) return true;
     return false;
+}
+
+function getRatchetPrice() {
+    if (!S.position || S.peakPnl <= 0) return null;
+    const p = S.position;
+    // Calculate total portfolio €/pt (including vol/bonds if deployed)
+    let totalPV = getPortfolioPtsValue(p.deploy);
+    if (p.pyramided && p.pyramidDeploy) totalPV += getPortfolioPtsValue(p.pyramidDeploy);
+    if (totalPV === 0) return null;
+    const rPnl = S.peakPnl * 0.90;
+    const rPts = rPnl / totalPV;
+    return Math.round(p.direction === 'LONG' ? p.entry + rPts : p.entry - rPts);
+}
+
+function getAvailableSignals() {
+    return RULES.SIGNALS[S.dayType] || RULES.SIGNALS.NORMAL;
 }
 
 function fmt(n) { return '€' + Math.round(n).toLocaleString(); }
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// TRANSITIONS
-// ═══════════════════════════════════════════════════════════════════════════════
-
-function go(state) {
-    S.currentState = state;
-    saveState();
-    render();
+function formatDeploy(deploy) {
+    // Returns HTML chips for deployment
+    if (!deploy || Object.keys(deploy).length === 0) return '<span style="color:var(--dim)">None</span>';
+    let html = '';
+    for (const [inst, qty] of Object.entries(deploy)) {
+        const info = INST[inst];
+        const cls = info.type === 'equity' ? 'inst-eq' : info.type === 'vol' ? 'inst-vol' : 'inst-bond';
+        html += `<span class="inst-chip ${cls}">${qty}×${inst}</span>`;
+    }
+    return html;
 }
 
-function input(id) {
-    return parseFloat(document.getElementById(id)?.value) || 0;
+function formatDeployCompact(deploy) {
+    // Returns text like "2 FDAX + 4 FESX + 4 FDXS"
+    if (!deploy || Object.keys(deploy).length === 0) return 'None';
+    return Object.entries(deploy).map(([k,v]) => `${v} ${k}`).join(' + ');
+}
+
+function deployCount(deploy) {
+    return Object.values(deploy || {}).reduce((a,b) => a + b, 0);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// TRAILING STOP LOGIC
+// ═══════════════════════════════════════════════════════════════════════════════
+function computeTrailLadder() {
+    if (!S.position) return [];
+    const p = S.position;
+    const sc = getStopConfig();
+    const step = sc.trail;
+    const activate = sc.activate;
+    const ladder = [];
+
+    ladder.push({
+        alertPrice: p.direction === 'LONG' ? p.entry + activate : p.entry - activate,
+        newStop: p.entry,
+        label: 'Breakeven'
+    });
+
+    for (let i = 1; i <= 20; i++) {
+        const alertPrice = p.direction === 'LONG'
+            ? p.entry + activate + (step * i)
+            : p.entry - activate - (step * i);
+        const newStop = p.direction === 'LONG'
+            ? p.entry + (step * i)
+            : p.entry - (step * i);
+        ladder.push({ alertPrice, newStop, label: '+' + (activate + step * i) + ' pts' });
+    }
+    return ladder;
+}
+
+function getNextTrailTarget() {
+    const ladder = computeTrailLadder();
+    if (!S.currentTrailStop) return ladder[0] || null;
+    for (let i = 0; i < ladder.length; i++) {
+        if (ladder[i].newStop === S.currentTrailStop) return ladder[i + 1] || null;
+    }
+    return ladder[0] || null;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// TRANSITIONS + INPUT
+// ═══════════════════════════════════════════════════════════════════════════════
+function go(state) { S.currentState = state; saveState(); render(); }
+function input(id) { return parseFloat(document.getElementById(id)?.value) || 0; }
+
+const BACK_MAP = {
+    'INPUT_CAPITAL': 'MORNING_LOAD',
+    'INPUT_RANGE': 'INPUT_CAPITAL',
+    'INPUT_ADX': 'INPUT_RANGE',
+    'INPUT_ORB_HIGH': 'SHOW_SIZING',
+    'INPUT_ORB_LOW': 'INPUT_ORB_HIGH',
+    'WAITING_BREAKOUT': 'INPUT_ORB_LOW',
+    'ALERT_HIT_CONFIRM': 'POSITION_OPEN',
+    'MOVE_STOP_INSTRUCTION': 'POSITION_OPEN',
+    'PYRAMID_TRIGGERED': 'POSITION_OPEN',
+    'INPUT_CURRENT_PNL': 'POSITION_OPEN',
+    'RATCHET_CLOSE': 'POSITION_OPEN',
+    'STOP_HIT': 'POSITION_OPEN',
+    'INPUT_STOP_PNL': 'POSITION_OPEN',
+    'INPUT_STOP_CAPITAL': 'POSITION_OPEN',
+    'CLOSE_TRADE': 'POSITION_OPEN',
+    'INPUT_CLOSE_PNL': 'POSITION_OPEN',
+    'INPUT_CLOSE_CAPITAL': 'POSITION_OPEN',
+    'SELECT_REENTRY_SIGNAL': null,
+    'SIGNAL_EXPLANATION': 'SELECT_REENTRY_SIGNAL',
+    'WAITING_REENTRY': 'SELECT_REENTRY_SIGNAL',
+    'INPUT_FILL_PRICE': 'WAITING_BREAKOUT',
+    'EOD_HOLD': 'POSITION_OPEN',
+    'EOD_CLOSE': 'POSITION_OPEN',
+    'INPUT_EOD_PNL': 'POSITION_OPEN',
+    'GAP_OPEN_PRICE': 'MORNING_LOAD',
+    'GAP_PNL': 'GAP_OPEN_PRICE',
+    'GAP_CAPITAL': 'GAP_PNL',
+    'NO_TRADE': 'INPUT_ADX',
+    'COOLDOWN': null,
+    'POST_TRADE_WIN': null,
+    'CRASH_CONFIRM': 'SHOW_SIZING',
+};
+
+function goBack() {
+    const cur = S.currentState;
+    if (cur === 'SELECT_REENTRY_SIGNAL') {
+        if (S.lastExitType === 'win') return go('POST_TRADE_WIN');
+        if (S.lastExitType === 'loss') return go('COOLDOWN');
+        return go('SHOW_SIZING');
+    }
+    const parent = BACK_MAP[cur];
+    if (parent) go(parent);
+}
+
+function updateBackButton() {
+    const btn = document.getElementById('back-btn');
+    const cur = S.currentState;
+    const hasBack = BACK_MAP[cur] !== undefined || cur === 'SELECT_REENTRY_SIGNAL';
+    const rootScreens = ['MORNING_LOAD','POSITION_OPEN','SHOW_SIZING','DAY_COMPLETE','BUSTED','COOLDOWN','POST_TRADE_WIN'];
+    if (rootScreens.includes(cur)) btn.className = 'back-btn';
+    else if (hasBack) btn.className = 'back-btn visible';
+    else btn.className = 'back-btn';
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // ACTIONS
 // ═══════════════════════════════════════════════════════════════════════════════
-
 function startSession() {
     if (!S.startDate) S.startDate = new Date().toISOString().split('T')[0];
     S.sessionDate = new Date().toISOString().split('T')[0];
-    
-    // Reset session data
-    S.stopsToday = 0;
-    S.tradesCount = 0;
-    S.orbHigh = null;
-    S.orbLow = null;
-    S.position = null;
-    S.peakPnl = 0;
-    
-    if (S.overnight) {
-        go('GAP_OPEN_PRICE');
-    } else {
-        go('INPUT_CAPITAL');
-    }
+    S.stopsToday = 0; S.tradesCount = 0; S.winsToday = 0;
+    S.orbHigh = null; S.orbLow = null;
+    S.position = null; S.peakPnl = 0;
+    S.currentTrailStop = null; S.trailHistory = [];
+    S.cooldownStart = null; S.isCrash = false;
+    S.lastExitType = null;
+    if (S.overnight) go('GAP_OPEN_PRICE');
+    else go('INPUT_CAPITAL');
 }
 
-function submitGapOpen(openPrice) {
-    S.overnight.openPrice = openPrice;
-    go('GAP_PNL');
+function submitGapOpen(v) { S.overnight.openPrice = v; go('GAP_PNL'); }
+function submitGapPnl(v) { S.overnight.gapPnl = v; go('GAP_CAPITAL'); }
+function submitGapCapital(v) {
+    S.capital = v; S.phase = getPhase(v); checkDowngrade();
+    S.overnight = null; go('INPUT_RANGE');
 }
 
-function submitGapPnl(pnl) {
-    S.overnight.gapPnl = pnl;
-    go('GAP_CAPITAL');
+function submitCapital(v) {
+    S.capital = v; S.phase = getPhase(v); checkDowngrade();
+    if (S.capital < RULES.BUST_THRESHOLD) go('BUSTED');
+    else go('INPUT_RANGE');
 }
 
-function submitGapCapital(capital) {
-    S.capital = capital;
-    S.phase = getPhase(capital);
-    checkDowngrade();
-    S.overnight = null;
-    go('INPUT_RANGE');
-}
-
-function submitCapital(capital) {
-    S.capital = capital;
-    S.phase = getPhase(capital);
-    checkDowngrade();
-    
-    if (S.capital < RULES.BUST_THRESHOLD) {
-        go('BUSTED');
-    } else {
-        go('INPUT_RANGE');
-    }
-}
-
-function submitRange(range) {
-    S.range = range;
-    S.dayType = getDayType(range);
+function submitRange(v) {
+    S.range = v; S.dayType = getDayType(v);
     go('INPUT_ADX');
 }
 
-function submitAdx(adx) {
-    S.adx = adx;
-    const check = canTrade();
-    if (!check.can) {
-        S.noTradeReason = check.reason;
-        go('NO_TRADE');
-    } else {
-        go('SHOW_SIZING');
-    }
+function submitAdx(v) {
+    S.adx = v;
+    const c = canTrade();
+    if (!c.can) { S.noTradeReason = c.reason; go('NO_TRADE'); }
+    else go('SHOW_SIZING');
 }
 
-function proceedToOrb() {
-    go('INPUT_ORB_HIGH');
-}
+function proceedToOrb() { go('INPUT_ORB_HIGH'); }
+function submitOrbHigh(v) { S.orbHigh = v; go('INPUT_ORB_LOW'); }
+function submitOrbLow(v) { S.orbLow = v; go('WAITING_BREAKOUT'); }
+function breakoutTriggered(dir) { S.tempDirection = dir; go('INPUT_FILL_PRICE'); }
 
-function submitOrbHigh(price) {
-    S.orbHigh = price;
-    go('INPUT_ORB_LOW');
-}
-
-function submitOrbLow(price) {
-    S.orbLow = price;
-    go('WAITING_BREAKOUT');
-}
-
-function breakoutTriggered(direction) {
-    S.tempDirection = direction;
-    go('INPUT_FILL_PRICE');
+function toggleCrash() {
+    S.isCrash = !S.isCrash;
+    render();
 }
 
 function submitFillPrice(price) {
-    const cfg = RULES.PHASES[S.phase];
-    const contracts = getContracts();
-    const stopPts = getStopPts();
+    const deploy = getRiskCappedDeployment();
+    const sc = getStopConfig();
     const dir = S.tempDirection;
-    
+
+    // Pyramid adds: remaining equity instruments
+    const allEquity = ['FDAX','FESX','FDXS','FDXM','FXXP','FESB'];
+    const pyramidAdd = {};
+    if (S.dayType === 'MONSTER' || S.dayType === 'TREND') {
+        for (const inst of allEquity) {
+            if (!deploy[inst]) {
+                pyramidAdd[inst] = Math.min(2, INST[inst].max);
+            }
+        }
+    }
+
     S.position = {
-        direction: dir,
-        entry: price,
-        contracts: contracts,
-        stop: dir === 'LONG' ? price - stopPts : price + stopPts,
-        stopPts: stopPts,
-        pyramidLevel: cfg.pyramid ? (dir === 'LONG' ? price + cfg.pyramid : price - cfg.pyramid) : null,
-        pyramidAdd: cfg.pyramidAdd,
+        direction: dir, entry: price,
+        deploy: {...deploy},
+        stop: dir === 'LONG' ? price - sc.stop : price + sc.stop,
+        stopPts: sc.stop,
+        pyramidLevel: Object.keys(pyramidAdd).length > 0 ? (dir === 'LONG' ? price + RULES.PYRAMID_TRIGGER : price - RULES.PYRAMID_TRIGGER) : null,
+        pyramidDeploy: Object.keys(pyramidAdd).length > 0 ? pyramidAdd : null,
         pyramided: false,
-        pyramidContracts: 0,
-        fvs1: cfg.fvs1,
-        fvs1Contracts: cfg.fvs1 ? cfg.fvs1Contracts : 0
     };
-    
-    S.tradesCount++;
-    S.peakPnl = 0;
-    S.tempDirection = null;
-    
+
+    S.tradesCount++; S.peakPnl = 0; S.tempDirection = null;
+    S.currentTrailStop = null; S.trailHistory = [];
+
+    const activate = sc.activate;
+    S.nextAlertPrice = dir === 'LONG' ? price + activate : price - activate;
+
     go('POSITION_OPEN');
 }
 
-function pyramidHit() {
-    go('PYRAMID_TRIGGERED');
+function alertHit() { go('ALERT_HIT_CONFIRM'); }
+
+function confirmAlertHit(currentPrice) {
+    const p = S.position;
+    const ladder = computeTrailLadder();
+    let newStop = p.stop;
+    let nextAlert = null;
+
+    for (let i = 0; i < ladder.length; i++) {
+        const reached = p.direction === 'LONG'
+            ? currentPrice >= ladder[i].alertPrice
+            : currentPrice <= ladder[i].alertPrice;
+        if (reached) {
+            newStop = ladder[i].newStop;
+            nextAlert = ladder[i + 1] ? ladder[i + 1].alertPrice : null;
+        } else {
+            if (!nextAlert) nextAlert = ladder[i].alertPrice;
+            break;
+        }
+    }
+
+    S.currentTrailStop = newStop;
+    S.position.stop = newStop;
+    S.nextAlertPrice = nextAlert;
+    S.trailHistory.push({ price: currentPrice, stop: newStop, time: new Date().toLocaleTimeString() });
+
+    // Update peak P&L — full portfolio
+    let totalPV = getPortfolioPtsValue(p.deploy);
+    if (p.pyramided && p.pyramidDeploy) totalPV += getPortfolioPtsValue(p.pyramidDeploy);
+    const currentPnl = Math.abs(currentPrice - p.entry) * totalPV;
+    if (currentPnl > S.peakPnl) S.peakPnl = currentPnl;
+
+    go('MOVE_STOP_INSTRUCTION');
 }
 
+function stopMoved() { go('POSITION_OPEN'); }
+
+function pyramidHit() { go('PYRAMID_TRIGGERED'); }
 function submitPyramidFill(price) {
     S.position.pyramided = true;
-    S.position.pyramidContracts = S.position.pyramidAdd;
     S.position.pyramidEntry = price;
-    S.position.stop = S.position.entry; // Move to breakeven
+    S.position.stop = S.position.entry; // move to breakeven
+    S.currentTrailStop = S.position.entry;
     go('POSITION_OPEN');
 }
 
-function updatePnl() {
-    go('INPUT_CURRENT_PNL');
+function updatePnl() { go('INPUT_CURRENT_PNL'); }
+function ratchetHit() {
+    S.ratchetPnl = Math.round(S.peakPnl * 0.90);
+    go('RATCHET_CLOSE');
 }
-
 function submitCurrentPnl(pnl) {
-    if (checkRatchet(pnl)) {
-        S.ratchetPnl = pnl;
-        go('RATCHET_CLOSE');
-    } else {
-        go('POSITION_OPEN');
-    }
+    if (checkRatchet(pnl)) { S.ratchetPnl = pnl; go('RATCHET_CLOSE'); }
+    else go('POSITION_OPEN');
 }
 
-function stopHit() {
-    go('STOP_HIT');
-}
-
-function submitStopExit(price) {
-    S.position.exitPrice = price;
-    go('INPUT_STOP_PNL');
-}
-
-function submitStopPnl(pnl) {
-    S.position.pnl = pnl;
-    go('INPUT_STOP_CAPITAL');
-}
-
+function stopHit() { go('STOP_HIT'); }
+function submitStopExit(price) { S.position.exitPrice = price; go('INPUT_STOP_PNL'); }
+function submitStopPnl(pnl) { S.position.pnl = pnl; go('INPUT_STOP_CAPITAL'); }
 function submitStopCapital(capital) {
-    S.capital = capital;
-    S.phase = getPhase(capital);
-    const downgraded = checkDowngrade();
-    S.stopsToday++;
-    S.position = null;
-    
-    if (S.capital < RULES.BUST_THRESHOLD) {
-        go('BUSTED');
-    } else if (canReenter()) {
-        go('COOLDOWN');
-    } else {
-        go('DAY_COMPLETE');
-    }
+    S.capital = capital; S.phase = getPhase(capital); checkDowngrade();
+    S.stopsToday++; S.position = null; S.currentTrailStop = null;
+    S.lastExitType = 'loss'; S.cooldownStart = Date.now();
+    if (S.capital < RULES.BUST_THRESHOLD) go('BUSTED');
+    else if (canReenter()) go('COOLDOWN');
+    else go('DAY_COMPLETE');
 }
 
-function cooldownDone() {
-    go('SELECT_REENTRY_SIGNAL');
-}
-
-function skipReentry() {
-    go('DAY_COMPLETE');
-}
-
-function selectSignal(signal) {
-    S.tempSignal = signal;
-    go('WAITING_REENTRY');
-}
-
-function reentryTriggered(direction) {
-    S.tempDirection = direction;
-    go('INPUT_FILL_PRICE');
-}
-
-function closeTrade() {
-    go('CLOSE_TRADE');
-}
-
-function submitCloseExit(price) {
-    S.position.exitPrice = price;
-    go('INPUT_CLOSE_PNL');
-}
-
-function submitClosePnl(pnl) {
-    S.position.pnl = pnl;
-    go('INPUT_CLOSE_CAPITAL');
-}
-
+function closeTrade() { go('CLOSE_TRADE'); }
+function submitCloseExit(price) { S.position.exitPrice = price; go('INPUT_CLOSE_PNL'); }
+function submitClosePnl(pnl) { S.position.pnl = pnl; go('INPUT_CLOSE_CAPITAL'); }
 function submitCloseCapital(capital) {
-    S.capital = capital;
-    S.phase = getPhase(capital);
-    checkDowngrade();
-    
-    S.position = null;
-    
-    if (S.capital < RULES.BUST_THRESHOLD) {
-        go('BUSTED');
-    } else if (canTrade().can && S.tradesCount < 3) {
-        go('SHOW_SIZING');
-    } else {
-        go('DAY_COMPLETE');
-    }
+    S.capital = capital; S.phase = getPhase(capital); checkDowngrade();
+    S.winsToday++; S.position = null; S.currentTrailStop = null;
+    S.lastExitType = 'win';
+    if (S.capital < RULES.BUST_THRESHOLD) go('BUSTED');
+    else go('POST_TRADE_WIN');
 }
+
+function goReenter() { go('SELECT_REENTRY_SIGNAL'); }
+function goNewTrade() { go('SHOW_SIZING'); }
+function cooldownDone() { go('SELECT_REENTRY_SIGNAL'); }
+function skipReentry() { go('DAY_COMPLETE'); }
+function selectSignal(sig) { S.tempSignal = sig; go('SIGNAL_EXPLANATION'); }
+function confirmSignalWatch() { go('WAITING_REENTRY'); }
+function reentryTriggered(dir) { S.tempDirection = dir; go('INPUT_FILL_PRICE'); }
+function ratchetClose() { go('CLOSE_TRADE'); }
+function noBreakout() { go('DAY_COMPLETE'); }
+function noReentrySignal() { go('DAY_COMPLETE'); }
 
 function confirmEodHold(closePrice) {
+    const onDeploy = getOvernightDeployment();
     S.overnight = {
         direction: S.position.direction,
-        contracts: S.position.contracts + S.position.pyramidContracts,
+        deploy: onDeploy,
         closePrice: closePrice
     };
-    S.position = null;
-    go('DAY_COMPLETE');
+    S.position = null; go('DAY_COMPLETE');
 }
-
-function eodClose() {
-    go('EOD_CLOSE');
-}
-
-function eodCheck() {
-    go('INPUT_EOD_PNL');
-}
-
+function eodClose() { go('EOD_CLOSE'); }
+function eodCheck() { go('INPUT_EOD_PNL'); }
 function submitEodPnl(pnl) {
     S.position.pnl = pnl;
-    const overnightEligible = checkOvernightEligible(pnl);
-    if (overnightEligible) {
-        go('EOD_HOLD');
-    } else {
-        go('EOD_CLOSE');
-    }
+    if (checkOvernightEligible(pnl)) go('EOD_HOLD');
+    else go('EOD_CLOSE');
 }
+function submitEodExit(price) { S.position.exitPrice = price; go('INPUT_CLOSE_PNL'); }
+function nextDay() { S.day++; S.currentState = 'MORNING_LOAD'; saveState(); render(); }
 
-function submitEodExit(price) {
-    S.position.exitPrice = price;
-    go('INPUT_CLOSE_PNL');
-}
-
-function ratchetClose() {
-    go('CLOSE_TRADE');
-}
-
-function noBreakout() {
-    go('DAY_COMPLETE');
-}
-
-function noReentrySignal() {
-    go('DAY_COMPLETE');
-}
-
-function nextDay() {
-    S.day++;
-    S.currentState = 'MORNING_LOAD';
-    saveState();
-    render();
+// ═══════════════════════════════════════════════════════════════════════════════
+// SIGNAL EXPLANATIONS
+// ═══════════════════════════════════════════════════════════════════════════════
+function getSignalExplanation(sig) {
+    const sc = getStopConfig();
+    const x = {
+        'ORB_RECLAIM': {
+            name: 'ORB Reclaim', what: 'First breakout failed. Price returns to ORB zone and breaks again.',
+            setup: `Set alert at ORB HIGH (${S.orbHigh}) or LOW (${S.orbLow})`,
+            entry: 'Enter on second break of ORB level', stop: 'Other side of ORB or phase stop'
+        },
+        'VWAP_RECLAIM': {
+            name: 'VWAP Reclaim', what: 'Price drops below VWAP, bases, then reclaims above it.',
+            setup: '1. Set alert: VWAP Crossing Down\n2. When alert fires, WAIT\n3. Watch for 15M candle CLOSE back ABOVE VWAP',
+            entry: 'Go LONG on 15M candle close above VWAP', stop: 'Below VWAP - 20 pts'
+        },
+        'HIGHER_LOW': {
+            name: 'Higher Low', what: 'Price makes a low, rallies, pulls back to HIGHER low.',
+            setup: 'After pullback, confirm new low is higher than previous',
+            entry: 'Break of interim high between two lows', stop: 'Below the higher low'
+        },
+        '15M_CLOSE': {
+            name: '15-Min Close', what: 'Strong 15M candle closes in upper 25% of range.',
+            setup: 'Watch for convincing bullish 15M candle above VWAP',
+            entry: 'Next candle open after strong close', stop: 'Below 15M candle low'
+        },
+        'EMA_BOUNCE': {
+            name: '20 EMA Bounce', what: 'On trend days, price rides the 20 EMA. Touch + bounce = re-entry.',
+            setup: '1. Add 20 EMA to 15M chart\n2. Set alert at 20 EMA value\n3. Wait for price to touch and bounce',
+            entry: 'Enter when 15M candle bounces off 20 EMA with conviction', stop: sc.stop + ' pts below entry'
+        },
+        'HALF_PULLBACK': {
+            name: '50% Pullback', what: 'Price retraces half the last leg then holds.',
+            setup: 'Measure last move (swing low to swing high). Calculate 50% level.',
+            entry: 'Enter on hold/bounce at 50% retracement', stop: 'Below 61.8% fib level'
+        },
+        'LEVEL_RETEST': {
+            name: 'Level Retest', what: 'Old breakout level becomes support. Price retests and holds.',
+            setup: 'Identify the last level price broke through. Set alert there.',
+            entry: 'Enter on bounce off retested level', stop: sc.stop + ' pts below level'
+        },
+        'ANY_PULLBACK': {
+            name: 'Any Pullback >30pts', what: 'MONSTER day — any pullback of 30+ pts is buyable.',
+            setup: 'Set alert 30 pts below current price. Update as price rises.',
+            entry: 'Enter on any 30+ pt pullback that holds for 5 min', stop: sc.stop + ' pts below entry'
+        }
+    };
+    return x[sig] || { name: sig, what: '', setup: '', entry: '', stop: '' };
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // RENDER
 // ═══════════════════════════════════════════════════════════════════════════════
-
 function render() {
-    // Update phase badge
-    const badge = document.getElementById('phase-badge');
-    badge.className = 'phase-badge phase-' + S.phase;
-    badge.textContent = 'PHASE ' + S.phase;
-    
-    // Update footer
-    document.getElementById('footer').textContent = 'Day ' + S.day + ' of ' + RULES.COMPETITION_DAYS + ' │ ' + fmt(S.capital);
-    
-    // Render screen
+    const b = document.getElementById('phase-badge');
+    b.className = 'phase-badge phase-' + S.phase;
+    b.textContent = 'PHASE ' + S.phase;
+    document.getElementById('footer').textContent = 'Day ' + S.day + '/20 │ ' + fmt(S.capital) + ' │ ' + (S.dayType || '—');
     document.getElementById('main').innerHTML = renderScreen();
+    updateBackButton();
 }
 
 function renderScreen() {
-    switch(S.currentState) {
-        case 'MORNING_LOAD': return screenMorningLoad();
-        case 'GAP_OPEN_PRICE': return screenGapOpen();
-        case 'GAP_PNL': return screenGapPnl();
-        case 'GAP_CAPITAL': return screenGapCapital();
-        case 'INPUT_CAPITAL': return screenInputCapital();
-        case 'INPUT_RANGE': return screenInputRange();
-        case 'INPUT_ADX': return screenInputAdx();
-        case 'NO_TRADE': return screenNoTrade();
-        case 'BUSTED': return screenBusted();
-        case 'SHOW_SIZING': return screenShowSizing();
-        case 'INPUT_ORB_HIGH': return screenInputOrbHigh();
-        case 'INPUT_ORB_LOW': return screenInputOrbLow();
-        case 'WAITING_BREAKOUT': return screenWaitingBreakout();
-        case 'INPUT_FILL_PRICE': return screenInputFill();
-        case 'POSITION_OPEN': return screenPositionOpen();
-        case 'PYRAMID_TRIGGERED': return screenPyramidTriggered();
-        case 'INPUT_PYRAMID_FILL': return screenInputPyramidFill();
-        case 'INPUT_CURRENT_PNL': return screenInputCurrentPnl();
-        case 'RATCHET_CLOSE': return screenRatchetClose();
-        case 'STOP_HIT': return screenStopHit();
-        case 'INPUT_STOP_PNL': return screenInputStopPnl();
-        case 'INPUT_STOP_CAPITAL': return screenInputStopCapital();
-        case 'COOLDOWN': return screenCooldown();
-        case 'SELECT_REENTRY_SIGNAL': return screenSelectSignal();
-        case 'WAITING_REENTRY': return screenWaitingReentry();
-        case 'CLOSE_TRADE': return screenCloseTrade();
-        case 'INPUT_CLOSE_PNL': return screenInputClosePnl();
-        case 'INPUT_CLOSE_CAPITAL': return screenInputCloseCapital();
-        case 'EOD_HOLD': return screenEodHold();
-        case 'EOD_CLOSE': return screenEodClose();
-        case 'INPUT_EOD_PNL': return screenInputEodPnl();
-        case 'DAY_COMPLETE': return screenDayComplete();
-        default: return screenMorningLoad();
-    }
+    const m = {
+        'MORNING_LOAD': scMorning, 'GAP_OPEN_PRICE': scGapOpen, 'GAP_PNL': scGapPnl,
+        'GAP_CAPITAL': scGapCapital, 'INPUT_CAPITAL': scCapital, 'INPUT_RANGE': scRange,
+        'INPUT_ADX': scAdx, 'NO_TRADE': scNoTrade, 'BUSTED': scBusted,
+        'SHOW_SIZING': scSizing, 'INPUT_ORB_HIGH': scOrbHigh, 'INPUT_ORB_LOW': scOrbLow,
+        'WAITING_BREAKOUT': scBreakout, 'INPUT_FILL_PRICE': scFill,
+        'POSITION_OPEN': scPosition, 'ALERT_HIT_CONFIRM': scAlertHit,
+        'MOVE_STOP_INSTRUCTION': scMoveStop,
+        'PYRAMID_TRIGGERED': scPyramid, 'INPUT_CURRENT_PNL': scPnl,
+        'RATCHET_CLOSE': scRatchet, 'STOP_HIT': scStopHit,
+        'INPUT_STOP_PNL': scStopPnl, 'INPUT_STOP_CAPITAL': scStopCap,
+        'COOLDOWN': scCooldown, 'SELECT_REENTRY_SIGNAL': scSelectSignal,
+        'SIGNAL_EXPLANATION': scSignalExplain, 'WAITING_REENTRY': scWaitReentry,
+        'CLOSE_TRADE': scClose, 'INPUT_CLOSE_PNL': scClosePnl,
+        'INPUT_CLOSE_CAPITAL': scCloseCap,
+        'POST_TRADE_WIN': scPostWin,
+        'EOD_HOLD': scEodHold, 'EOD_CLOSE': scEodClose, 'INPUT_EOD_PNL': scEodPnl,
+        'DAY_COMPLETE': scDayDone,
+        'RESET_CONFIRM': scResetConfirm
+    };
+    return (m[S.currentState] || scMorning)();
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // SCREENS
 // ═══════════════════════════════════════════════════════════════════════════════
-
-function screenMorningLoad() {
-    return `
-        <div class="screen active">
-            <div class="status">
-                <div class="status-icon">☀️</div>
-                <div class="status-title">Day ${S.day}</div>
-                <div class="status-sub">${S.overnight ? 'You have an overnight position' : 'Ready to trade'}</div>
-            </div>
-            <button class="btn btn-primary" onclick="startSession()">Start Session</button>
-        </div>
-    `;
+function scMorning() {
+    return `<div class="screen active">
+        <div class="status"><div class="status-icon">☀️</div>
+        <div class="status-title">Day ${S.day}</div>
+        <div class="status-sub">${S.overnight ? 'Overnight position open' : 'Ready to trade'}</div></div>
+        <button class="btn btn-primary" onclick="startSession()">Start Session</button></div>`;
+}
+function scGapOpen() {
+    return `<div class="screen active"><div class="question">Today's DAX OPEN?</div>
+        <div class="sub">Held ${S.overnight.direction} overnight</div>
+        <div class="action-card" style="border-color:var(--dim)"><div class="action-title">Overnight position</div>
+            <div class="inst-row">${formatDeploy(S.overnight.deploy)}</div></div>
+        <div class="input-wrap"><input type="number" class="input" id="inp" inputmode="decimal" placeholder="21000"></div>
+        <button class="btn btn-primary" onclick="submitGapOpen(input('inp'))">Next</button></div>`;
+}
+function scGapPnl() {
+    return `<div class="screen active"><div class="question">Gap P&L?</div><div class="sub">Overnight gap P&L</div>
+        <div class="input-wrap"><input type="number" class="input" id="inp" inputmode="decimal" placeholder="1500"></div>
+        <button class="btn btn-primary" onclick="submitGapPnl(input('inp'))">Next</button></div>`;
+}
+function scGapCapital() {
+    return `<div class="screen active"><div class="question">Current capital?</div><div class="sub">After gap settlement</div>
+        <div class="input-wrap"><input type="number" class="input" id="inp" inputmode="numeric" placeholder="${S.capital}"></div>
+        <button class="btn btn-primary" onclick="submitGapCapital(input('inp'))">Next</button></div>`;
+}
+function scCapital() {
+    return `<div class="screen active"><div class="question">Capital?</div><div class="sub">Current account balance</div>
+        <div class="input-wrap"><input type="number" class="input" id="inp" inputmode="numeric" value="${S.capital}"></div>
+        <button class="btn btn-primary" onclick="submitCapital(input('inp'))">Next</button></div>`;
+}
+function scRange() {
+    return `<div class="screen active"><div class="question">Yesterday's range?</div><div class="sub">High − Low in points</div>
+        <div class="input-wrap"><input type="number" class="input" id="inp" inputmode="numeric" placeholder="150"><div class="input-unit">points</div></div>
+        <button class="btn btn-primary" onclick="submitRange(input('inp'))">Next</button></div>`;
+}
+function scAdx() {
+    return `<div class="screen active"><div class="question">ADX?</div><div class="sub">Current ADX value (must be ≥ 18)</div>
+        <div class="input-wrap"><input type="number" class="input" id="inp" inputmode="decimal" placeholder="25"></div>
+        <button class="btn btn-primary" onclick="submitAdx(input('inp'))">Next</button></div>`;
+}
+function scNoTrade() {
+    return `<div class="screen active"><div class="status"><div class="status-icon">🚫</div>
+        <div class="status-title">No Trade</div><div class="status-sub">${S.noTradeReason}</div></div>
+        <button class="btn btn-secondary" onclick="go('DAY_COMPLETE')">End Day</button></div>`;
+}
+function scBusted() {
+    return `<div class="screen active"><div class="status"><div class="status-icon">💀</div>
+        <div class="status-title">BUSTED</div><div class="status-sub">Capital below €70,000</div></div></div>`;
+}
+function scResetConfirm() {
+    return `<div class="screen active">
+        <div class="status"><div class="status-icon">⚠️</div>
+            <div class="status-title">Reset Everything?</div>
+            <div class="status-sub">This will delete all data. Cannot be undone.</div></div>
+        <div class="info-card">
+            <div class="info-row"><span class="info-label">Current capital</span><span class="info-value">${fmt(S.capital)}</span></div>
+            <div class="info-row"><span class="info-label">Day</span><span class="info-value">${S.day}/20</span></div>
+            <div class="info-row"><span class="info-label">Phase</span><span class="info-value">${S.phase}</span></div></div>
+        <button class="btn btn-primary" style="background:var(--red)" onclick="resetApp()">Yes — Reset All Data</button>
+        <button class="btn btn-secondary" onclick="cancelReset()">Cancel</button></div>`;
 }
 
-function screenGapOpen() {
-    return `
-        <div class="screen active">
-            <div class="question">Today's OPEN?</div>
-            <div class="sub">You held ${S.overnight.direction} ${S.overnight.contracts} FDAX overnight</div>
-            <div class="input-wrap">
-                <input type="number" class="input" id="inp" inputmode="decimal" placeholder="21000">
-            </div>
-            <button class="btn btn-primary" onclick="submitGapOpen(input('inp'))">Next</button>
+// ═══════════════════════════════════════════════════════════════════════════════
+// SIZING SCREEN — Shows full deployment
+// ═══════════════════════════════════════════════════════════════════════════════
+function scSizing() {
+    const rawDeploy = getDeployment();
+    const cappedDeploy = getRiskCappedDeployment();
+    const sc = getStopConfig();
+    const rawRisk = computeRisk(rawDeploy, sc.stop);
+    const cappedRisk = computeRisk(cappedDeploy, sc.stop);
+    const maxRisk = S.capital * RULES.RISK_CAP[S.phase];
+    const portfolioPV = getPortfolioPtsValue(cappedDeploy);
+    const wasScaled = JSON.stringify(rawDeploy) !== JSON.stringify(cappedDeploy);
+    const pyramidInst = (S.dayType === 'MONSTER' || S.dayType === 'TREND') ? getPyramidInstruments() : {};
+    const hasPyramid = Object.keys(pyramidInst).length > 0;
+    const edt = getEffectiveDayType();
+    const isCrashMode = edt === 'CRASH';
+
+    return `<div class="screen active">
+        <div class="info-card">
+            <div class="info-row"><span class="info-label">Phase</span><span class="info-value">${S.phase} — ${RULES.PHASE_NAMES[S.phase]}</span></div>
+            <div class="info-row"><span class="info-label">Day Type</span><span class="info-value">${isCrashMode ? 'CRASH 📉' : S.dayType}${S.dayType==='MONSTER'?' 🔥':S.dayType==='TREND'?' 📈':''}</span></div>
+            <div class="info-row"><span class="info-label">Stop / Trail</span><span class="info-value">${sc.stop}pt / ${sc.trail}pt (activate +${sc.activate})</span></div>
+            <div class="info-row"><span class="info-label">Portfolio €/pt</span><span class="info-value">~${fmt(portfolioPV)}</span></div>
+            <div class="info-row"><span class="info-label">Risk on stop</span><span class="info-value">${fmt(cappedRisk)} (${(cappedRisk/S.capital*100).toFixed(1)}%)</span></div>
+            <div class="info-row"><span class="info-label">Risk cap (P${S.phase})</span><span class="info-value">${fmt(maxRisk)} (${(RULES.RISK_CAP[S.phase]*100).toFixed(0)}%)</span></div>
         </div>
-    `;
+        ${wasScaled ? `<div class="action-card red"><div class="action-title">⚠️ Scaled down — risk cap enforced</div>
+            <div class="action-sub">Full deploy risk ${fmt(rawRisk)} exceeded ${(RULES.RISK_CAP[S.phase]*100).toFixed(0)}% cap. Positions reduced:</div></div>` : ''}
+        <div class="action-card ${isCrashMode ? 'red' : 'green'}">
+            <div class="action-title">${isCrashMode ? '📉 CRASH MODE — SHORT equity, LONG vol+bonds' : '📊 Deployment'}${wasScaled ? ' (risk-adjusted)' : ''}</div>
+            <div class="inst-row">${formatDeploy(cappedDeploy)}</div>
+            <div class="action-sub">${deployCount(cappedDeploy)} contracts across ${Object.keys(cappedDeploy).length} instruments</div>
+        </div>
+        ${hasPyramid ? `<div class="action-card cyan"><div class="action-title">⚡ Pyramid at +${RULES.PYRAMID_TRIGGER}pts — add</div>
+            <div class="inst-row">${formatDeploy(pyramidInst)}</div></div>` : ''}
+        ${S.phase >= 2 && (S.dayType === 'MONSTER' || S.dayType === 'TREND') ?
+            `<button class="btn btn-secondary" onclick="toggleCrash()" style="color:${isCrashMode ? 'var(--green)' : 'var(--red)'}">
+                ${isCrashMode ? '↩ Switch to LONG mode' : '📉 Activate CRASH mode (SHORT)'}</button>` : ''}
+        <button class="btn btn-primary" onclick="proceedToOrb()">Set ORB</button></div>`;
 }
 
-function screenGapPnl() {
-    return `
-        <div class="screen active">
-            <div class="question">Gap P&L?</div>
-            <div class="sub">What was your overnight gap P&L?</div>
-            <div class="input-wrap">
-                <input type="number" class="input" id="inp" inputmode="decimal" placeholder="1500">
-            </div>
-            <button class="btn btn-primary" onclick="submitGapPnl(input('inp'))">Next</button>
-        </div>
-    `;
-}
+// ═══════════════════════════════════════════════════════════════════════════════
+// BREAKOUT SCREEN — Shows exact instruments to buy
+// ═══════════════════════════════════════════════════════════════════════════════
+function scBreakout() {
+    const deploy = getRiskCappedDeployment();
+    const sc = getStopConfig();
+    const isCrash = getEffectiveDayType() === 'CRASH';
+    const eqInst = Object.entries(deploy).filter(([k]) => INST[k].type === 'equity');
+    const volInst = Object.entries(deploy).filter(([k]) => INST[k].type === 'vol');
+    const bondInst = Object.entries(deploy).filter(([k]) => INST[k].type === 'bond');
+    const totalContracts = deployCount(deploy);
+    const risk = computeRisk(deploy, sc.stop);
+    const portfolioPV = getPortfolioPtsValue(deploy);
 
-function screenGapCapital() {
-    return `
-        <div class="screen active">
-            <div class="question">Current capital?</div>
-            <div class="sub">After gap settlement</div>
-            <div class="input-wrap">
-                <input type="number" class="input" id="inp" inputmode="numeric" placeholder="${S.capital}">
-            </div>
-            <button class="btn btn-primary" onclick="submitGapCapital(input('inp'))">Next</button>
-        </div>
-    `;
-}
+    if (isCrash) {
+        let crashEq = eqInst.map(([k,v]) => `SELL ${v} ${k}`).join('<br>');
+        let crashVol = volInst.map(([k,v]) => `BUY ${v} ${k}`).join('<br>');
+        let crashBond = bondInst.map(([k,v]) => `BUY ${v} ${k}`).join('<br>');
 
-function screenInputCapital() {
-    return `
-        <div class="screen active">
-            <div class="question">Capital?</div>
-            <div class="sub">Your current account balance</div>
-            <div class="input-wrap">
-                <input type="number" class="input" id="inp" inputmode="numeric" value="${S.capital}">
-            </div>
-            <button class="btn btn-primary" onclick="submitCapital(input('inp'))">Next</button>
-        </div>
-    `;
-}
-
-function screenInputRange() {
-    return `
-        <div class="screen active">
-            <div class="question">Yesterday's range?</div>
-            <div class="sub">High - Low in points</div>
-            <div class="input-wrap">
-                <input type="number" class="input" id="inp" inputmode="numeric" placeholder="150">
-                <div class="input-unit">points</div>
-            </div>
-            <button class="btn btn-primary" onclick="submitRange(input('inp'))">Next</button>
-        </div>
-    `;
-}
-
-function screenInputAdx() {
-    return `
-        <div class="screen active">
-            <div class="question">ADX?</div>
-            <div class="sub">Current ADX value</div>
-            <div class="input-wrap">
-                <input type="number" class="input" id="inp" inputmode="decimal" placeholder="25">
-            </div>
-            <button class="btn btn-primary" onclick="submitAdx(input('inp'))">Next</button>
-        </div>
-    `;
-}
-
-function screenNoTrade() {
-    return `
-        <div class="screen active">
-            <div class="status">
-                <div class="status-icon">🚫</div>
-                <div class="status-title">No Trade</div>
-                <div class="status-sub">${S.noTradeReason}</div>
-            </div>
-            <button class="btn btn-secondary" onclick="go('DAY_COMPLETE')">End Day</button>
-        </div>
-    `;
-}
-
-function screenBusted() {
-    return `
-        <div class="screen active">
-            <div class="status">
-                <div class="status-icon">💀</div>
-                <div class="status-title">BUSTED</div>
-                <div class="status-sub">Capital below €70,000</div>
-            </div>
-        </div>
-    `;
-}
-
-function screenShowSizing() {
-    const cfg = RULES.PHASES[S.phase];
-    const contracts = getContracts();
-    const stop = getStopPts();
-    const risk = contracts * stop * RULES.POINT_VALUE;
-    
-    return `
-        <div class="screen active">
+        return `<div class="screen active">
             <div class="info-card">
-                <div class="info-row">
-                    <span class="info-label">Phase</span>
-                    <span class="info-value">${S.phase} (${cfg.name})</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Day Type</span>
-                    <span class="info-value">${S.dayType}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Contracts</span>
-                    <span class="info-value">${contracts} FDAX</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Stop</span>
-                    <span class="info-value">${stop} pts</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Risk</span>
-                    <span class="info-value">${fmt(risk)}</span>
-                </div>
-                ${cfg.fvs1 ? `<div class="info-row">
-                    <span class="info-label">FVS1 Hedge</span>
-                    <span class="info-value">${cfg.fvs1Contracts} contracts</span>
-                </div>` : ''}
-                ${cfg.pyramid ? `<div class="info-row">
-                    <span class="info-label">Pyramid</span>
-                    <span class="info-value">+${cfg.pyramid} pts → +${cfg.pyramidAdd}</span>
-                </div>` : ''}
-            </div>
-            <button class="btn btn-primary" onclick="proceedToOrb()">Set ORB</button>
-        </div>
-    `;
+                <div class="info-row"><span class="info-label">Total contracts</span><span class="info-value">${totalContracts}</span></div>
+                <div class="info-row"><span class="info-label">Risk on stop</span><span class="info-value" style="color:var(--red)">${fmt(risk)}</span></div></div>
+            <div class="action-card red"><div class="action-title">📉 CRASH — SHORT equity if DAX breaks ${S.orbLow}</div>
+                <div class="action-main" style="font-size:14px;line-height:1.8">${crashEq}</div></div>
+            ${volInst.length ? `<div class="action-card purple"><div class="action-title">📊 BUY volatility</div>
+                <div class="action-main" style="font-size:14px;line-height:1.8">${crashVol}</div></div>` : ''}
+            ${bondInst.length ? `<div class="action-card blue"><div class="action-title">🛡️ BUY bonds (flight to safety)</div>
+                <div class="action-main" style="font-size:14px;line-height:1.8">${crashBond}</div></div>` : ''}
+            <div class="action-card" style="border-color:var(--dim)"><div class="action-title">⏰ Set alert on TradingView</div>
+                <div class="action-main" style="font-size:16px">${S.orbLow} (crossing down)</div>
+                <div class="action-sub">Stop: DAX ${S.orbLow + sc.stop} (${sc.stop} pts above)</div></div>
+            <button class="btn btn-short" onclick="breakoutTriggered('SHORT')">SHORT — Crash Entry</button>
+            <button class="btn btn-ghost" onclick="noBreakout()">No breakout</button></div>`;
+    }
+
+    let longHtml = eqInst.map(([k,v]) => `BUY ${v} ${k}`).join('<br>');
+    let shortHtml = eqInst.map(([k,v]) => `SELL ${v} ${k}`).join('<br>');
+
+    return `<div class="screen active">
+        <div class="info-card">
+            <div class="info-row"><span class="info-label">Total contracts</span><span class="info-value">${totalContracts}</span></div>
+            <div class="info-row"><span class="info-label">Portfolio €/pt</span><span class="info-value">${fmt(portfolioPV)}</span></div>
+            <div class="info-row"><span class="info-label">Risk on stop</span><span class="info-value" style="color:var(--red)">${fmt(risk)}</span></div></div>
+        <div class="action-card green"><div class="action-title">📈 If DAX breaks ${S.orbHigh} — BUY ALL</div>
+            <div class="action-main" style="font-size:14px;line-height:1.8">${longHtml}</div>
+            <div class="action-sub">Stop: DAX ${S.orbHigh - sc.stop} (${sc.stop} pts below)</div></div>
+        <div class="action-card red"><div class="action-title">📉 If DAX breaks ${S.orbLow} — SELL ALL</div>
+            <div class="action-main" style="font-size:14px;line-height:1.8">${shortHtml}</div>
+            <div class="action-sub">Stop: DAX ${S.orbLow + sc.stop} (${sc.stop} pts above)</div></div>
+        <div class="action-card" style="border-color:var(--dim)"><div class="action-title">⏰ Set alerts on TradingView</div>
+            <div class="action-main" style="font-size:16px">${S.orbHigh} (crossing up)</div>
+            <div class="action-main" style="font-size:16px">${S.orbLow} (crossing down)</div></div>
+        <div class="btn-row">
+            <button class="btn btn-long" onclick="breakoutTriggered('LONG')">LONG ALL</button>
+            <button class="btn btn-short" onclick="breakoutTriggered('SHORT')">SHORT ALL</button></div>
+        <button class="btn btn-ghost" onclick="noBreakout()">No breakout</button></div>`;
 }
 
-function screenInputOrbHigh() {
-    return `
-        <div class="screen active">
-            <div class="question">ORB HIGH?</div>
-            <div class="sub">Upper boundary of opening range</div>
-            <div class="input-wrap">
-                <input type="number" class="input" id="inp" inputmode="decimal" placeholder="21050">
-            </div>
-            <button class="btn btn-primary" onclick="submitOrbHigh(input('inp'))">Next</button>
-        </div>
-    `;
+function scOrbHigh() {
+    return `<div class="screen active"><div class="question">ORB HIGH?</div><div class="sub">DAX 30-min opening range HIGH (08:00–08:30 CET)</div>
+        <div class="input-wrap"><input type="number" class="input" id="inp" inputmode="decimal" placeholder="21050"></div>
+        <button class="btn btn-primary" onclick="submitOrbHigh(input('inp'))">Next</button></div>`;
+}
+function scOrbLow() {
+    return `<div class="screen active"><div class="question">ORB LOW?</div><div class="sub">DAX 30-min opening range LOW</div>
+        <div class="input-wrap"><input type="number" class="input" id="inp" inputmode="decimal" placeholder="20950"></div>
+        <button class="btn btn-primary" onclick="submitOrbLow(input('inp'))">Next</button></div>`;
 }
 
-function screenInputOrbLow() {
-    return `
-        <div class="screen active">
-            <div class="question">ORB LOW?</div>
-            <div class="sub">Lower boundary of opening range</div>
-            <div class="input-wrap">
-                <input type="number" class="input" id="inp" inputmode="decimal" placeholder="20950">
-            </div>
-            <button class="btn btn-primary" onclick="submitOrbLow(input('inp'))">Next</button>
-        </div>
-    `;
+function scFill() {
+    const deploy = getRiskCappedDeployment();
+    const portfolioPV = getPortfolioPtsValue(deploy);
+    return `<div class="screen active"><div class="direction ${S.tempDirection.toLowerCase()}">${S.tempDirection}</div>
+        <div class="question">DAX entry level?</div><div class="sub">DAX price at fill</div>
+        <div class="action-card" style="border-color:var(--dim)"><div class="action-title">📊 Enter ALL of these now</div>
+            <div class="inst-row">${formatDeploy(deploy)}</div>
+            <div class="action-sub">${deployCount(deploy)} contracts │ ~${fmt(portfolioPV)}/pt</div></div>
+        <div class="input-wrap"><input type="number" class="input" id="inp" inputmode="decimal"></div>
+        <button class="btn btn-primary" onclick="submitFillPrice(input('inp'))">Confirm</button></div>`;
 }
 
-function screenWaitingBreakout() {
-    const contracts = getContracts();
-    const stop = getStopPts();
-    const cfg = RULES.PHASES[S.phase];
-    
-    return `
-        <div class="screen active">
-            <div class="instruction">
-                <div class="instruction-title">If price breaks ${S.orbHigh}</div>
-                <div class="instruction-main">BUY ${contracts} FDAX</div>
-                <div class="instruction-detail">Stop loss: ${S.orbHigh - stop}</div>
-                ${cfg.fvs1 ? `<div class="instruction-detail">Buy ${cfg.fvs1Contracts} FVS1 hedge</div>` : ''}
-            </div>
-            <div class="instruction">
-                <div class="instruction-title">If price breaks ${S.orbLow}</div>
-                <div class="instruction-main">SELL ${contracts} FDAX</div>
-                <div class="instruction-detail">Stop loss: ${S.orbLow + stop}</div>
-                ${cfg.fvs1 ? `<div class="instruction-detail">Buy ${cfg.fvs1Contracts} FVS1 hedge</div>` : ''}
-            </div>
-            <div class="btn-row">
-                <button class="btn btn-long" onclick="breakoutTriggered('LONG')">LONG</button>
-                <button class="btn btn-short" onclick="breakoutTriggered('SHORT')">SHORT</button>
-            </div>
-            <button class="btn btn-ghost" onclick="noBreakout()">No breakout</button>
-        </div>
-    `;
-}
-
-function screenInputFill() {
-    return `
-        <div class="screen active">
-            <div class="direction ${S.tempDirection.toLowerCase()}">${S.tempDirection}</div>
-            <div class="question">Fill price?</div>
-            <div class="sub">Your actual entry price</div>
-            <div class="input-wrap">
-                <input type="number" class="input" id="inp" inputmode="decimal">
-            </div>
-            <button class="btn btn-primary" onclick="submitFillPrice(input('inp'))">Confirm</button>
-        </div>
-    `;
-}
-
-function screenPositionOpen() {
+// ═══════════════════════════════════════════════════════════════════════════════
+// POSITION OPEN — main in-trade screen (DAX-referenced, spec-pure)
+// ═══════════════════════════════════════════════════════════════════════════════
+function scPosition() {
     const p = S.position;
-    const totalContracts = p.contracts + p.pyramidContracts;
-    const cfg = RULES.PHASES[S.phase];
-    
-    return `
-        <div class="screen active">
-            <div class="direction ${p.direction.toLowerCase()}">${p.direction} ${totalContracts} FDAX</div>
-            
-            <div class="info-card">
-                <div class="info-row">
-                    <span class="info-label">Entry</span>
-                    <span class="info-value">${p.entry}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Stop Loss</span>
-                    <span class="info-value">${p.stop}${p.pyramided ? ' (BE)' : ''}</span>
-                </div>
-                ${!p.pyramided && p.pyramidLevel ? `<div class="info-row">
-                    <span class="info-label">Pyramid at</span>
-                    <span class="info-value">${p.pyramidLevel} → +${p.pyramidAdd}</span>
-                </div>` : ''}
-            </div>
-            
-            <button class="btn btn-primary" onclick="updatePnl()" style="margin-bottom:12px">Update P&L</button>
-            
-            ${!p.pyramided && p.pyramidLevel ? `<button class="btn btn-secondary" onclick="pyramidHit()" style="margin-bottom:12px">Pyramid Hit</button>` : ''}
-            
-            <div class="btn-row">
-                <button class="btn btn-secondary" onclick="stopHit()">Stop Hit</button>
-                <button class="btn btn-secondary" onclick="closeTrade()">Close</button>
-            </div>
-            <button class="btn btn-ghost" onclick="eodCheck()">End of Day</button>
+    const deploy = p.deploy;
+    let totalPV = getPortfolioPtsValue(deploy);
+    if (p.pyramided && p.pyramidDeploy) totalPV += getPortfolioPtsValue(p.pyramidDeploy);
+    const totalContracts = deployCount(deploy) + (p.pyramided && p.pyramidDeploy ? deployCount(p.pyramidDeploy) : 0);
+    const next = getNextTrailTarget();
+    const ratchet = getRatchetPrice();
+    const sc = getStopConfig();
+    const lockedProfit = S.currentTrailStop
+        ? Math.abs(S.currentTrailStop - p.entry) * totalPV : 0;
+    const currentRisk = computeRisk(deploy, Math.abs(p.stop - p.entry));
+
+    return `<div class="screen active">
+        <div class="direction ${p.direction.toLowerCase()}">${p.direction} — ${totalContracts} contracts</div>
+        <div class="action-card" style="border-color:var(--dim)">
+            <div class="action-title">Deployed</div>
+            <div class="inst-row">${formatDeploy(deploy)}</div>
+            ${p.pyramided && p.pyramidDeploy ? `<div class="action-title" style="margin-top:6px">+ Pyramid</div>
+                <div class="inst-row">${formatDeploy(p.pyramidDeploy)}</div>` : ''}
         </div>
-    `;
+        <div class="info-card">
+            <div class="info-row"><span class="info-label">Entry (DAX)</span><span class="info-value">${p.entry}</span></div>
+            <div class="info-row"><span class="info-label">Stop (DAX)</span><span class="info-value" style="color:var(--red)">${p.stop}</span></div>
+            ${lockedProfit > 0 ? `<div class="info-row"><span class="info-label">Locked Profit</span><span class="info-value" style="color:var(--green)">~${fmt(lockedProfit)}</span></div>` : ''}
+            <div class="info-row"><span class="info-label">Risk if stopped</span><span class="info-value" style="color:var(--red)">~${fmt(currentRisk)}</span></div>
+            <div class="info-row"><span class="info-label">Trail Step</span><span class="info-value">${sc.trail} pts (${S.dayType})</span></div>
+            <div class="info-row"><span class="info-label">Portfolio €/pt</span><span class="info-value">~${fmt(totalPV)}</span></div>
+            ${!p.pyramided && p.pyramidLevel ? `<div class="info-row"><span class="info-label">Pyramid at</span><span class="info-value">${p.pyramidLevel} (+${RULES.PYRAMID_TRIGGER}pts)</span></div>` : ''}
+        </div>
+        <div style="padding:8px 12px;font-size:12px;color:var(--dim);border-left:2px solid var(--red);margin:8px 0">DAX hits stop → close ALL ${totalContracts} contracts on all instruments</div>
+
+        ${next ? `<div class="action-card"><div class="action-title">⏰ Set alert on TradingView</div>
+            <div class="action-main">${next.alertPrice}</div>
+            <div class="action-sub">When hit → trail stop to ${next.newStop} on ALL instruments (${next.label})</div></div>` : ''}
+
+        ${ratchet ? `<div class="action-card" style="border-left:3px solid var(--red)"><div class="action-title">🔻 Ratchet alert on TradingView</div>
+            <div class="action-main" style="color:var(--red)">${ratchet}</div>
+            <div class="action-sub">If DAX hits here → CLOSE ALL ${totalContracts} contracts (10% drop from peak ${fmt(S.peakPnl)})</div></div>` : ''}
+
+        <button class="btn btn-primary" onclick="alertHit()">⏰ Alert Hit — Trail Stop</button>
+        ${ratchet ? `<button class="btn btn-secondary" style="color:var(--red)" onclick="ratchetHit()">🔻 Ratchet Hit (${ratchet}) — CLOSE ALL</button>` : ''}
+        ${!p.pyramided && p.pyramidLevel ? `<button class="btn btn-secondary" onclick="pyramidHit()">⚡ Pyramid Hit (${p.pyramidLevel})</button>` : ''}
+        <div class="btn-row">
+            <button class="btn btn-secondary" onclick="stopHit()" style="color:var(--red)">Stop Hit</button>
+            <button class="btn btn-secondary" onclick="closeTrade()">Close Trade</button></div>
+        <div class="btn-row">
+            <button class="btn btn-ghost" onclick="updatePnl()">Manual P&L Check</button>
+            <button class="btn btn-ghost" onclick="eodCheck()">End of Day</button></div></div>`;
 }
 
-function screenPyramidTriggered() {
+function scAlertHit() {
+    return `<div class="screen active"><div class="question">Current price?</div><div class="sub">Price when your alert fired</div>
+        <div class="input-wrap"><input type="number" class="input" id="inp" inputmode="decimal" placeholder="${S.nextAlertPrice || ''}"></div>
+        <button class="btn btn-primary" onclick="confirmAlertHit(input('inp'))">Confirm</button>
+        <button class="btn btn-ghost" onclick="go('POSITION_OPEN')">Cancel</button></div>`;
+}
+
+function scMoveStop() {
     const p = S.position;
-    return `
-        <div class="screen active">
-            <div class="status">
-                <div class="status-icon">⚡</div>
-                <div class="status-title">PYRAMID</div>
-                <div class="status-sub">Add ${p.pyramidAdd} contracts</div>
-            </div>
-            <div class="instruction">
-                <div class="instruction-title">Action</div>
-                <div class="instruction-main">BUY ${p.pyramidAdd} more FDAX</div>
-                <div class="instruction-detail">Move stop to ${p.entry} (breakeven)</div>
-            </div>
-            <div class="question" style="font-size:20px;margin-top:24px">Pyramid fill price?</div>
-            <div class="input-wrap">
-                <input type="number" class="input" id="inp" inputmode="decimal" value="${p.pyramidLevel}">
-            </div>
-            <button class="btn btn-primary" onclick="submitPyramidFill(input('inp'))">Done</button>
-        </div>
-    `;
+    let totalPV = getPortfolioPtsValue(p.deploy);
+    if (p.pyramided && p.pyramidDeploy) totalPV += getPortfolioPtsValue(p.pyramidDeploy);
+    const profit = Math.abs(S.currentTrailStop - p.entry) * totalPV;
+    const ratchet = getRatchetPrice();
+    const totalContracts = deployCount(p.deploy) + (p.pyramided && p.pyramidDeploy ? deployCount(p.pyramidDeploy) : 0);
+    return `<div class="screen active">
+        <div class="status"><div class="status-icon">✅</div><div class="status-title">MOVE ALL STOPS</div></div>
+        <div class="action-card green"><div class="action-title">Move stop on ALL ${totalContracts} contracts</div>
+            <div class="action-main">DAX stop → ${S.currentTrailStop}</div>
+            <div class="inst-row" style="margin-top:6px">${formatDeploy(p.deploy)}</div>
+            ${p.pyramided && p.pyramidDeploy ? `<div class="inst-row">${formatDeploy(p.pyramidDeploy)}</div>` : ''}
+            <div class="action-sub">Locks in ~${fmt(profit)} across portfolio</div></div>
+        ${S.nextAlertPrice ? `<div class="action-card blue"><div class="action-title">Set next trail alert</div>
+            <div class="action-main">${S.nextAlertPrice}</div>
+            <div class="action-sub">Next trail level</div></div>` :
+        `<div class="action-card"><div class="action-title">No more trail levels</div>
+            <div class="action-main">Let it ride</div><div class="action-sub">Watch ratchet / close at EOD</div></div>`}
+        ${ratchet ? `<div class="action-card" style="border-left:3px solid var(--red)"><div class="action-title">🔻 Update ratchet alert</div>
+            <div class="action-main" style="color:var(--red)">${ratchet}</div>
+            <div class="action-sub">If DAX hits here → CLOSE ALL (10% from peak ${fmt(S.peakPnl)})</div></div>` : ''}
+        <button class="btn btn-primary" onclick="stopMoved()">Done — Alerts Set</button></div>`;
 }
 
-function screenInputCurrentPnl() {
-    return `
-        <div class="screen active">
-            <div class="question">Current P&L?</div>
-            <div class="sub">Your unrealized P&L right now</div>
-            <div class="input-wrap">
-                <input type="number" class="input" id="inp" inputmode="decimal" placeholder="0">
-            </div>
-            <button class="btn btn-primary" onclick="submitCurrentPnl(input('inp'))">Update</button>
-        </div>
-    `;
-}
-
-function screenRatchetClose() {
-    return `
-        <div class="screen active">
-            <div class="status">
-                <div class="status-icon">🔻</div>
-                <div class="status-title">RATCHET</div>
-                <div class="status-sub">P&L dropped 10% from peak</div>
-            </div>
-            <div class="info-card">
-                <div class="info-row">
-                    <span class="info-label">Peak P&L</span>
-                    <span class="info-value">${fmt(S.peakPnl)}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Current P&L</span>
-                    <span class="info-value">${fmt(S.ratchetPnl)}</span>
-                </div>
-            </div>
-            <div class="instruction">
-                <div class="instruction-title">Action</div>
-                <div class="instruction-main">CLOSE POSITION NOW</div>
-            </div>
-            <button class="btn btn-primary" onclick="ratchetClose()">Close Position</button>
-        </div>
-    `;
-}
-
-function screenStopHit() {
-    return `
-        <div class="screen active">
-            <div class="status">
-                <div class="status-icon">🛑</div>
-                <div class="status-title">STOPPED</div>
-            </div>
-            <div class="question">Exit price?</div>
-            <div class="input-wrap">
-                <input type="number" class="input" id="inp" inputmode="decimal" value="${S.position.stop}">
-            </div>
-            <button class="btn btn-primary" onclick="submitStopExit(input('inp'));go('INPUT_STOP_PNL')">Next</button>
-        </div>
-    `;
-}
-
-function screenInputStopPnl() {
-    return `
-        <div class="screen active">
-            <div class="question">Trade P&L?</div>
-            <div class="sub">Your realized P&L on this trade</div>
-            <div class="input-wrap">
-                <input type="number" class="input" id="inp" inputmode="decimal" placeholder="-3000">
-            </div>
-            <button class="btn btn-primary" onclick="submitStopPnl(input('inp'))">Next</button>
-        </div>
-    `;
-}
-
-function screenInputStopCapital() {
-    return `
-        <div class="screen active">
-            <div class="question">Current capital?</div>
-            <div class="sub">Your account balance now</div>
-            <div class="input-wrap">
-                <input type="number" class="input" id="inp" inputmode="numeric">
-            </div>
-            <button class="btn btn-primary" onclick="submitStopCapital(input('inp'))">Next</button>
-        </div>
-    `;
-}
-
-function screenCooldown() {
-    return `
-        <div class="screen active">
-            <div class="status">
-                <div class="status-icon">⏱️</div>
-                <div class="status-title">COOLDOWN</div>
-                <div class="status-sub">Wait 15-30 minutes</div>
-            </div>
-            <div class="info-card">
-                <div class="info-row">
-                    <span class="info-label">Stops today</span>
-                    <span class="info-value">${S.stopsToday}/3</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Trades today</span>
-                    <span class="info-value">${S.tradesCount}/3</span>
-                </div>
-            </div>
-            <button class="btn btn-primary" onclick="cooldownDone()">Ready to Re-enter</button>
-            <button class="btn btn-ghost" onclick="skipReentry()">Done for today</button>
-        </div>
-    `;
-}
-
-function screenSelectSignal() {
-    const p2p3 = S.phase >= 2;
-    return `
-        <div class="screen active">
-            <div class="question">Re-entry signal?</div>
-            <div class="sub">Must be NEW signal, not same level</div>
-            
-            <button class="btn btn-secondary" onclick="selectSignal('ORB_RECLAIM')">ORB Reclaim</button>
-            <button class="btn btn-secondary" onclick="selectSignal('VWAP_RECLAIM')">VWAP Reclaim</button>
-            <button class="btn btn-secondary" onclick="selectSignal('FAILED_BREAKDOWN')">Failed Breakdown</button>
-            ${p2p3 ? `
-                <button class="btn btn-secondary" onclick="selectSignal('HIGHER_LOW')">Higher Low</button>
-                <button class="btn btn-secondary" onclick="selectSignal('15M_CLOSE')">15-Min Close</button>
-                <button class="btn btn-secondary" onclick="selectSignal('ADX_THRUST')">ADX Thrust</button>
-            ` : ''}
-            
-            <button class="btn btn-ghost" onclick="noReentrySignal()">No valid signal</button>
-        </div>
-    `;
-}
-
-function screenWaitingReentry() {
-    const contracts = getContracts();
-    const stop = getStopPts();
-    
-    return `
-        <div class="screen active">
-            <div class="question">Waiting for ${S.tempSignal.replace('_', ' ')}</div>
-            <div class="sub">When signal triggers, tap direction</div>
-            
-            <div class="info-card">
-                <div class="info-row">
-                    <span class="info-label">Contracts</span>
-                    <span class="info-value">${contracts} FDAX</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Stop</span>
-                    <span class="info-value">${stop} pts</span>
-                </div>
-            </div>
-            
-            <div class="btn-row">
-                <button class="btn btn-long" onclick="reentryTriggered('LONG')">LONG</button>
-                <button class="btn btn-short" onclick="reentryTriggered('SHORT')">SHORT</button>
-            </div>
-            <button class="btn btn-ghost" onclick="noReentrySignal()">No signal</button>
-        </div>
-    `;
-}
-
-function screenCloseTrade() {
-    return `
-        <div class="screen active">
-            <div class="question">Exit price?</div>
-            <div class="sub">Your closing price</div>
-            <div class="input-wrap">
-                <input type="number" class="input" id="inp" inputmode="decimal">
-            </div>
-            <button class="btn btn-primary" onclick="submitCloseExit(input('inp'));go('INPUT_CLOSE_PNL')">Next</button>
-        </div>
-    `;
-}
-
-function screenInputClosePnl() {
-    return `
-        <div class="screen active">
-            <div class="question">Trade P&L?</div>
-            <div class="sub">Your realized P&L on this trade</div>
-            <div class="input-wrap">
-                <input type="number" class="input" id="inp" inputmode="decimal">
-            </div>
-            <button class="btn btn-primary" onclick="submitClosePnl(input('inp'))">Next</button>
-        </div>
-    `;
-}
-
-function screenInputCloseCapital() {
-    return `
-        <div class="screen active">
-            <div class="question">Current capital?</div>
-            <div class="sub">Your account balance now</div>
-            <div class="input-wrap">
-                <input type="number" class="input" id="inp" inputmode="numeric">
-            </div>
-            <button class="btn btn-primary" onclick="submitCloseCapital(input('inp'))">Next</button>
-        </div>
-    `;
-}
-
-function screenInputEodPnl() {
-    return `
-        <div class="screen active">
-            <div class="question">Current P&L?</div>
-            <div class="sub">Your unrealized P&L at end of day</div>
-            <div class="input-wrap">
-                <input type="number" class="input" id="inp" inputmode="decimal" placeholder="0">
-            </div>
-            <button class="btn btn-primary" onclick="submitEodPnl(input('inp'))">Next</button>
-        </div>
-    `;
-}
-
-function screenEodHold() {
+function scPyramid() {
     const p = S.position;
-    return `
-        <div class="screen active">
-            <div class="status">
-                <div class="status-icon">🌙</div>
-                <div class="status-title">HOLD OVERNIGHT</div>
-                <div class="status-sub">${p.direction} ${p.contracts + p.pyramidContracts} FDAX</div>
-            </div>
-            <div class="question" style="font-size:20px;margin-top:24px">Close price?</div>
-            <div class="sub">For gap calculation tomorrow</div>
-            <div class="input-wrap">
-                <input type="number" class="input" id="inp" inputmode="decimal">
-            </div>
-            <button class="btn btn-primary" onclick="confirmEodHold(input('inp'))">Confirm Hold</button>
-            <button class="btn btn-ghost" onclick="eodClose()">Close instead</button>
-        </div>
-    `;
+    const pyramidDeploy = p.pyramidDeploy || {};
+    return `<div class="screen active">
+        <div class="status"><div class="status-icon">⚡</div><div class="status-title">PYRAMID +${RULES.PYRAMID_TRIGGER}pts</div>
+            <div class="status-sub">Add remaining equity instruments</div></div>
+        <div class="action-card green"><div class="action-title">On TradingView — ADD THESE NOW</div>
+            <div class="inst-row">${formatDeploy(pyramidDeploy)}</div>
+            <div class="action-sub">Direction: ${p.direction} │ Then move ALL stops to ${p.entry} (breakeven)</div></div>
+        <div class="question" style="font-size:18px;margin-top:12px">DAX level at pyramid?</div>
+        <div class="input-wrap"><input type="number" class="input" id="inp" inputmode="decimal" value="${p.pyramidLevel}"></div>
+        <button class="btn btn-primary" onclick="submitPyramidFill(input('inp'))">Done</button></div>`;
 }
 
-function screenEodClose() {
-    return `
-        <div class="screen active">
-            <div class="question">Exit price?</div>
-            <div class="sub">End of day closing price</div>
-            <div class="input-wrap">
-                <input type="number" class="input" id="inp" inputmode="decimal">
-            </div>
-            <button class="btn btn-primary" onclick="submitCloseExit(input('inp'));go('INPUT_CLOSE_PNL')">Next</button>
-        </div>
-    `;
+function scPnl() {
+    return `<div class="screen active"><div class="question">Current P&L?</div><div class="sub">Unrealized P&L from TradingView</div>
+        <div class="input-wrap"><input type="number" class="input" id="inp" inputmode="decimal" placeholder="0"></div>
+        <button class="btn btn-primary" onclick="submitCurrentPnl(input('inp'))">Check Ratchet</button></div>`;
 }
 
-function screenDayComplete() {
-    return `
-        <div class="screen active">
-            <div class="status">
-                <div class="status-icon">✓</div>
-                <div class="status-title">Day Complete</div>
-                <div class="status-sub">${S.overnight ? 'Holding overnight' : 'Flat'}</div>
-            </div>
-            <div class="info-card">
-                <div class="info-row">
-                    <span class="info-label">Capital</span>
-                    <span class="info-value">${fmt(S.capital)}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Phase</span>
-                    <span class="info-value">${S.phase}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Trades</span>
-                    <span class="info-value">${S.tradesCount}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Stops</span>
-                    <span class="info-value">${S.stopsToday}</span>
-                </div>
-            </div>
-            ${S.overnight ? `
-                <div class="instruction">
-                    <div class="instruction-title">Overnight Position</div>
-                    <div class="instruction-main">${S.overnight.direction} ${S.overnight.contracts} FDAX</div>
-                    <div class="instruction-detail">Close: ${S.overnight.closePrice}</div>
-                </div>
-            ` : ''}
-            <button class="btn btn-primary" onclick="nextDay()">Next Day</button>
-        </div>
-    `;
+function scRatchet() {
+    const p = S.position;
+    const totalContracts = p ? deployCount(p.deploy) + (p.pyramided && p.pyramidDeploy ? deployCount(p.pyramidDeploy) : 0) : 0;
+    return `<div class="screen active">
+        <div class="status"><div class="status-icon">🔻</div><div class="status-title">RATCHET</div>
+            <div class="status-sub">P&L dropped 10% from peak</div></div>
+        <div class="info-card">
+            <div class="info-row"><span class="info-label">Peak P&L</span><span class="info-value">${fmt(S.peakPnl)}</span></div>
+            <div class="info-row"><span class="info-label">Current P&L</span><span class="info-value" style="color:var(--red)">${fmt(S.ratchetPnl)}</span></div></div>
+        <div class="action-card red"><div class="action-title">CLOSE ALL ${totalContracts} CONTRACTS NOW</div>
+            ${p ? `<div class="inst-row">${formatDeploy(p.deploy)}</div>
+            ${p.pyramided && p.pyramidDeploy ? `<div class="inst-row">${formatDeploy(p.pyramidDeploy)}</div>` : ''}` : ''}
+            <div class="action-sub">Close every instrument on TradingView immediately</div></div>
+        <button class="btn btn-primary" onclick="ratchetClose()">Close All Positions</button></div>`;
+}
+
+function scStopHit() {
+    const p = S.position;
+    return `<div class="screen active"><div class="status"><div class="status-icon">🛑</div><div class="status-title">STOPPED</div>
+        <div class="status-sub">Close ALL ${deployCount(p.deploy) + (p.pyramided && p.pyramidDeploy ? deployCount(p.pyramidDeploy) : 0)} contracts</div></div>
+        <div class="action-card red"><div class="action-title">Close on TradingView</div>
+            <div class="inst-row">${formatDeploy(p.deploy)}</div>
+            ${p.pyramided && p.pyramidDeploy ? `<div class="inst-row">${formatDeploy(p.pyramidDeploy)}</div>` : ''}</div>
+        <div class="question" style="font-size:18px">DAX exit level?</div>
+        <div class="input-wrap"><input type="number" class="input" id="inp" inputmode="decimal" value="${p.stop}"></div>
+        <button class="btn btn-primary" onclick="submitStopExit(input('inp'));go('INPUT_STOP_PNL')">Next</button></div>`;
+}
+function scStopPnl() {
+    return `<div class="screen active"><div class="question">Total P&L?</div><div class="sub">Realized P&L across ALL instruments</div>
+        <div class="input-wrap"><input type="number" class="input" id="inp" inputmode="decimal" placeholder="-750"></div>
+        <button class="btn btn-primary" onclick="submitStopPnl(input('inp'))">Next</button></div>`;
+}
+function scStopCap() {
+    return `<div class="screen active"><div class="question">Current capital?</div><div class="sub">Account balance now</div>
+        <div class="input-wrap"><input type="number" class="input" id="inp" inputmode="numeric"></div>
+        <button class="btn btn-primary" onclick="submitStopCapital(input('inp'))">Next</button></div>`;
+}
+
+function scCooldown() {
+    const elapsed = S.cooldownStart ? Math.floor((Date.now() - S.cooldownStart) / 60000) : 0;
+    const remaining = Math.max(0, 15 - elapsed);
+    return `<div class="screen active">
+        <div class="status"><div class="status-icon">⏱️</div><div class="status-title">COOLDOWN</div>
+            <div class="status-sub">${remaining > 0 ? remaining + ' min remaining' : 'Ready'}</div></div>
+        <div class="info-card">
+            <div class="info-row"><span class="info-label">Stops today</span><span class="info-value" style="color:var(--red)">${S.stopsToday}/${RULES.MAX_STOPS_DAY}</span></div>
+            <div class="info-row"><span class="info-label">Trades today</span><span class="info-value">${S.tradesCount}</span></div></div>
+        <div class="action-card blue"><div class="action-title">While you wait</div>
+            <div class="action-main" style="font-size:14px;font-family:system-ui">Watch for a NEW signal — do NOT re-enter the same level</div></div>
+        ${remaining <= 0 ? `<button class="btn btn-primary" onclick="cooldownDone()">Ready — Pick Signal</button>` :
+        `<button class="btn btn-secondary" onclick="S.cooldownStart=Date.now()-900000;render()">Skip (15 min passed)</button>`}
+        <button class="btn btn-ghost" onclick="skipReentry()">Done for today</button></div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// POST TRADE WIN
+// ═══════════════════════════════════════════════════════════════════════════════
+function scPostWin() {
+    const canMore = canTrade().can;
+    return `<div class="screen active">
+        <div class="status"><div class="status-icon">💰</div><div class="status-title">Profitable Exit</div>
+            <div class="status-sub">${fmt(S.capital)} (${S.capital >= RULES.START_CAPITAL ? '+' : ''}${fmt(S.capital - RULES.START_CAPITAL)})</div></div>
+        <div class="info-card">
+            <div class="info-row"><span class="info-label">Wins today</span><span class="info-value" style="color:var(--green)">${S.winsToday}</span></div>
+            <div class="info-row"><span class="info-label">Stops today</span><span class="info-value">${S.stopsToday}/${RULES.MAX_STOPS_DAY}</span></div>
+            <div class="info-row"><span class="info-label">Trades today</span><span class="info-value">${S.tradesCount}</span></div></div>
+        <div class="action-card green"><div class="action-title">✅ No cooldown after a win</div>
+            <div class="action-main" style="font-size:14px;font-family:system-ui">You can re-enter immediately with a new signal</div></div>
+        ${canMore ? `<button class="btn btn-primary" onclick="goReenter()">Re-enter — Pick Signal</button>` :
+        `<div class="action-card red"><div class="action-title">Cannot re-enter</div>
+            <div class="action-main" style="font-size:14px;font-family:system-ui">${canTrade().reason || '3 stops reached'}</div></div>`}
+        <button class="btn btn-ghost" onclick="go('DAY_COMPLETE')">Done for today</button></div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// RE-ENTRY SIGNAL SELECTION
+// ═══════════════════════════════════════════════════════════════════════════════
+function getRecommendedSignal() {
+    const sigs = getAvailableSignals();
+    const priority = {
+        MONSTER: ['ANY_PULLBACK', 'EMA_BOUNCE'],
+        TREND:   ['EMA_BOUNCE', 'HALF_PULLBACK', 'LEVEL_RETEST'],
+        NORMAL:  ['HIGHER_LOW', 'VWAP_RECLAIM', '15M_CLOSE'],
+        CHOP:    ['VWAP_RECLAIM', 'ORB_RECLAIM']
+    };
+    const order = priority[S.dayType] || sigs;
+    for (const s of order) { if (sigs.includes(s)) return s; }
+    return sigs[0];
+}
+
+function scSelectSignal() {
+    const signals = getAvailableSignals();
+    const rec = getRecommendedSignal();
+    const recInfo = getSignalExplanation(rec);
+    const others = signals.filter(s => s !== rec);
+    const deploy = getRiskCappedDeployment();
+    const sc = getStopConfig();
+
+    let html = `<div class="screen active">
+        <div class="question">Re-entry Setup</div>
+        <div class="sub">${S.dayType} day │ Phase ${S.phase} │ ${sc.stop}pt stop</div>
+        <div class="action-card" style="border-color:var(--dim)"><div class="action-title">📊 Deployment (${deployCount(deploy)} contracts)</div>
+            <div class="inst-row">${formatDeploy(deploy)}</div></div>
+        <div class="action-card green"><div class="action-title">📡 WATCH FOR</div>
+            <div class="action-main" style="font-size:20px">${recInfo.name}</div>
+            <div class="action-sub" style="margin-top:6px">${recInfo.what}</div></div>
+        <div class="action-card blue"><div class="action-title">📋 How to spot it</div>
+            <div class="action-main" style="font-size:13px;font-family:system-ui;font-weight:400;white-space:pre-line">${recInfo.setup}</div></div>
+        <div class="action-card"><div class="action-title">🎯 Entry rule</div>
+            <div class="action-main" style="font-size:13px;font-family:system-ui;font-weight:400">${recInfo.entry}</div></div>
+        <div class="action-card"><div class="action-title">🛑 Stop</div>
+            <div class="action-main" style="font-size:13px;font-family:system-ui;font-weight:400">${recInfo.stop}</div></div>
+        <button class="btn btn-primary" onclick="S.tempSignal='${rec}';confirmSignalWatch()">Watch for ${recInfo.name}</button>`;
+
+    if (others.length > 0) {
+        html += `<div class="sub" style="margin-top:16px;text-align:center">Or pick another signal:</div>`;
+        others.forEach(sig => {
+            const info = getSignalExplanation(sig);
+            html += `<button class="btn btn-ghost" onclick="selectSignal('${sig}')" style="text-align:left;padding:10px 16px">
+                ${info.name} <span style="opacity:0.5;font-size:12px">— ${info.what.substring(0, 50)}...</span></button>`;
+        });
+    }
+
+    html += `<button class="btn btn-ghost" onclick="noReentrySignal()">No signal — done for today</button></div>`;
+    return html;
+}
+
+function scSignalExplain() {
+    const info = getSignalExplanation(S.tempSignal);
+    return `<div class="screen active">
+        <div class="question">${info.name}</div><div class="sub">${info.what}</div>
+        <div class="action-card blue"><div class="action-title">📋 Setup</div>
+            <div class="action-main" style="font-size:13px;font-family:system-ui;font-weight:400;white-space:pre-line">${info.setup}</div></div>
+        <div class="action-card green"><div class="action-title">🎯 Entry</div>
+            <div class="action-main" style="font-size:13px;font-family:system-ui;font-weight:400">${info.entry}</div></div>
+        <div class="action-card"><div class="action-title">🛑 Stop</div>
+            <div class="action-main" style="font-size:13px;font-family:system-ui;font-weight:400">${info.stop}</div></div>
+        <button class="btn btn-primary" onclick="confirmSignalWatch()">Watch for this signal</button></div>`;
+}
+
+function scWaitReentry() {
+    const deploy = getRiskCappedDeployment();
+    const sc = getStopConfig();
+    const signalName = S.tempSignal.replace(/_/g, ' ');
+    const portfolioPV = getPortfolioPtsValue(deploy);
+    const risk = computeRisk(deploy, sc.stop);
+    return `<div class="screen active">
+        <div class="question">Waiting: ${signalName}</div><div class="sub">When signal triggers, tap direction</div>
+        <div class="action-card" style="border-color:var(--dim)"><div class="action-title">📊 Enter ALL of these on signal</div>
+            <div class="inst-row">${formatDeploy(deploy)}</div>
+            <div class="action-sub">${deployCount(deploy)} contracts │ ~${fmt(portfolioPV)}/pt │ risk ${fmt(risk)}</div></div>
+        <div class="info-card">
+            <div class="info-row"><span class="info-label">Stop</span><span class="info-value">${sc.stop} pts (all instruments)</span></div>
+            <div class="info-row"><span class="info-label">Trail starts at</span><span class="info-value">+${sc.activate} pts</span></div></div>
+        <div class="action-card"><div class="action-title">After entry — set alerts for ALL instruments</div>
+            <div class="action-main" style="font-size:13px;font-family:system-ui">Set alert at DAX entry + ${sc.activate} pts for first trail</div></div>
+        <div class="btn-row">
+            <button class="btn btn-long" onclick="reentryTriggered('LONG')">LONG</button>
+            <button class="btn btn-short" onclick="reentryTriggered('SHORT')">SHORT</button></div>
+        <button class="btn btn-ghost" onclick="noReentrySignal()">No signal — done</button></div>`;
+}
+
+function scClose() {
+    return `<div class="screen active"><div class="question">DAX exit level?</div><div class="sub">Price at close — applies to all instruments</div>
+        <div class="input-wrap"><input type="number" class="input" id="inp" inputmode="decimal"></div>
+        <button class="btn btn-primary" onclick="submitCloseExit(input('inp'));go('INPUT_CLOSE_PNL')">Next</button></div>`;
+}
+function scClosePnl() {
+    return `<div class="screen active"><div class="question">Total P&L?</div><div class="sub">Realized P&L across ALL instruments</div>
+        <div class="input-wrap"><input type="number" class="input" id="inp" inputmode="decimal"></div>
+        <button class="btn btn-primary" onclick="submitClosePnl(input('inp'))">Next</button></div>`;
+}
+function scCloseCap() {
+    return `<div class="screen active"><div class="question">Current capital?</div><div class="sub">Account balance now</div>
+        <div class="input-wrap"><input type="number" class="input" id="inp" inputmode="numeric"></div>
+        <button class="btn btn-primary" onclick="submitCloseCapital(input('inp'))">Next</button></div>`;
+}
+
+function scEodPnl() {
+    return `<div class="screen active"><div class="question">Current P&L?</div><div class="sub">Unrealized P&L at end of day</div>
+        <div class="input-wrap"><input type="number" class="input" id="inp" inputmode="decimal" placeholder="0"></div>
+        <button class="btn btn-primary" onclick="submitEodPnl(input('inp'))">Next</button></div>`;
+}
+function scEodHold() {
+    const p = S.position;
+    const onDeploy = getOvernightDeployment();
+    const fullDeploy = p.deploy;
+    const closing = {};
+    for (const [inst, qty] of Object.entries(fullDeploy)) {
+        if (!onDeploy[inst]) closing[inst] = qty;
+        else if (onDeploy[inst] < qty) closing[inst] = qty - onDeploy[inst];
+    }
+    const hasClosing = Object.keys(closing).length > 0;
+    return `<div class="screen active">
+        <div class="status"><div class="status-icon">🌙</div><div class="status-title">HOLD OVERNIGHT</div>
+            <div class="status-sub">${p.direction} │ ${deployCount(onDeploy)} contracts</div></div>
+        <div class="action-card green"><div class="action-title">KEEP OPEN overnight</div>
+            <div class="inst-row">${formatDeploy(onDeploy)}</div>
+            ${S.phase === 1 ? '<div class="action-sub">Phase 1: core only (FDAX + FDXS)</div>' : '<div class="action-sub">Full deployment overnight</div>'}</div>
+        ${hasClosing ? `<div class="action-card red"><div class="action-title">CLOSE these now</div>
+            <div class="inst-row">${formatDeploy(closing)}</div>
+            <div class="action-sub">Close before market close</div></div>` : ''}
+        <div class="question" style="font-size:18px;margin-top:12px">DAX close price?</div><div class="sub">For gap calculation tomorrow</div>
+        <div class="input-wrap"><input type="number" class="input" id="inp" inputmode="decimal"></div>
+        <button class="btn btn-primary" onclick="confirmEodHold(input('inp'))">Confirm Hold</button>
+        <button class="btn btn-ghost" onclick="eodClose()">Close everything instead</button></div>`;
+}
+function scEodClose() {
+    return `<div class="screen active"><div class="question">DAX exit level?</div><div class="sub">End of day — close ALL instruments</div>
+        <div class="input-wrap"><input type="number" class="input" id="inp" inputmode="decimal"></div>
+        <button class="btn btn-primary" onclick="submitCloseExit(input('inp'));go('INPUT_CLOSE_PNL')">Next</button></div>`;
+}
+
+function scDayDone() {
+    return `<div class="screen active">
+        <div class="status"><div class="status-icon">✓</div><div class="status-title">Day Complete</div>
+            <div class="status-sub">${S.overnight ? 'Holding overnight' : 'Flat'}</div></div>
+        <div class="info-card">
+            <div class="info-row"><span class="info-label">Capital</span><span class="info-value">${fmt(S.capital)}</span></div>
+            <div class="info-row"><span class="info-label">Session P&L</span><span class="info-value" style="color:${S.capital >= RULES.START_CAPITAL ? 'var(--green)' : 'var(--red)'}">${S.capital >= RULES.START_CAPITAL ? '+':''}${fmt(S.capital - RULES.START_CAPITAL)}</span></div>
+            <div class="info-row"><span class="info-label">Phase</span><span class="info-value">${S.phase} — ${RULES.PHASE_NAMES[S.phase]}</span></div>
+            <div class="info-row"><span class="info-label">Next phase</span><span class="info-value">${S.phase === 1 ? fmt(RULES.PHASE2_THRESHOLD) : S.phase === 2 ? fmt(RULES.PHASE3_THRESHOLD) : 'MAX'} (${S.phase < 3 ? fmt((S.phase === 1 ? RULES.PHASE2_THRESHOLD : RULES.PHASE3_THRESHOLD) - S.capital) + ' away' : '—'})</span></div>
+            <div class="info-row"><span class="info-label">Wins / Stops</span><span class="info-value">${S.winsToday} / ${S.stopsToday}</span></div>
+            <div class="info-row"><span class="info-label">Total Trades</span><span class="info-value">${S.tradesCount}</span></div></div>
+        ${S.overnight ? `<div class="action-card"><div class="action-title">Overnight Position</div>
+            <div class="action-main" style="font-size:14px">${S.overnight.direction}</div>
+            <div class="inst-row">${formatDeploy(S.overnight.deploy)}</div>
+            <div class="action-sub">Close: ${S.overnight.closePrice}</div></div>` : ''}
+        <button class="btn btn-primary" onclick="nextDay()">Next Day</button></div>`;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════════════════════════════
 render();
-
-// PWA Service Worker (inline)
 if ('serviceWorker' in navigator) {
-    const swCode = `
-        const CACHE = 'switchblade-v31';
-        self.addEventListener('install', e => {
-            e.waitUntil(caches.open(CACHE).then(c => c.addAll(['/'])));
-            self.skipWaiting();
-        });
-        self.addEventListener('fetch', e => {
-            e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
-        });
-    `;
-    const blob = new Blob([swCode], {type: 'application/javascript'});
-    const swUrl = URL.createObjectURL(blob);
-    navigator.serviceWorker.register(swUrl).catch(() => {});
+    const sw = `const C='switchblade-v33';self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(['/'])));self.skipWaiting()});self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request)))});`;
+    navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'}))).catch(()=>{});
 }
 </script>
 </body>
